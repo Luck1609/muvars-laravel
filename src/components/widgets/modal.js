@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
-import { FormBtn, Btn } from './btn';
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useSelector, useDispatch } from 'react-redux';
-import { showModal } from 'redux/types';
-import { UilTimes } from '@iconscout/react-unicons';
-import useAPIContext from 'hooks/api_context';
+import { useEffect } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { UilTimes } from '@iconscout/react-unicons'
+import useAPIContext from 'hooks/api_context'
+import useSelector from 'hooks/useSelector'
+import { show_modal } from 'hooks/reducers/types_&_actions'
+import { FormBtn, Btn } from './btn'
 
 
 export default function FormModal() {
-  const { makeRequest } = useAPIContext();
-  const dispatch = useDispatch();
-  const { modal: { state, data } } = useSelector(state => state.MiscReducer);
-  // const { modal: { validation, content: Component, url, values, title, method: actionMethod, action } } = useSelector(state => state.MiscReducer);
+  const { makeRequest } = useAPIContext()
+  const { state: { modal: data }, dispatch } = useSelector()
 
   const method = useForm({
     mode: 'all',
@@ -20,7 +18,7 @@ export default function FormModal() {
     defaultValues: data?.values
   })
 
-  const { handleSubmit, reset, watch, formState: { isDirty, isValid,  } } = method;
+  const { handleSubmit, reset, watch, formState: { isDirty, isValid,  } } = method
 
   useEffect(() => {
     reset(data?.values)
@@ -34,14 +32,14 @@ export default function FormModal() {
         method: data?.method,
         url: data?.url,
         payload,
-        mutation: data?.mutate_url,
-        // action: () => dispatch(showModal('close'))
-      });
+        mutation: data?.mutation,
+        action: () => data?.action ?? dispatch(show_modal('close'))
+      })
     } catch ({ message }) {
     }
   }
 
-  const Component = data?.content;
+  const Component = data?.content
 
   // console.log('Watching modal values', watch())
   if (!state) return <></>

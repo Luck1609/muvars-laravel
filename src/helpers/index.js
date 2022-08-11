@@ -1,0 +1,48 @@
+export default class Helper {
+  baseUrl = 'http://localhost:8000/';
+
+  // Capitalize first letter
+  ucwords = (info) => {
+    if (info) {
+      let splitted = info.split('');
+
+
+      let first = splitted[0].toUpperCase();
+      let end = splitted.slice(1);
+
+      return first.concat(end.toString().replaceAll(',', ''))
+    }
+  }
+
+  // Capitalize first letter
+  CapitalizeEachWord = (info, param) => {
+    if (info) {
+      let splitted = info.split(param);
+      let words = ''
+
+      splitted.forEach(spl => {
+        let word = `${spl.charAt(0).toUpperCase()}${spl.substring(1)} `;
+
+        words = words.concat(word);
+      });
+      
+
+      return words;
+    }
+  }
+
+  isJsonString = (string) => {
+    try {
+      // console.log('type of json string', typeof(string), ))
+      if (!isNaN(parseInt(string))) throw new Error('not a string')
+      JSON.parse(string);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+}
+
+
+
+export const api = window.api;

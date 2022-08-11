@@ -2,15 +2,13 @@ import Nav from "./navbar";
 import SideNav from "./navbar/sidenav";
 
 
-export default function Layouts() {
+export default function Layouts({ children }) {
   return (
     <div className="relative">
       <Nav />
 
-      <main className="">
-        <h1 className="text-rose-500 text-3xl font-bold">
-          Welcome to <a href="https://nextjs.org">Smart Ticket</a>
-        </h1>
+      <main className="pt-10">
+        { children }
       </main>
 
       <footer className="">

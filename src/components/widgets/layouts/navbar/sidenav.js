@@ -13,7 +13,8 @@ export default function SideNav() {
 
   const toggleDrawer = () => {setState(!state)}
 
-console.log('Pathname of route ', pathname)
+  const active_tab = pathname.split('/')[1]
+console.log('Pathname of route ', active_tab)
 
   return (
     <div>
@@ -31,11 +32,11 @@ console.log('Pathname of route ', pathname)
         <div className="w-[250px] bg-default h-screen">
           <ul>
             {
-              links.map(({name, url, icon}, index) => {
+              links.map(({name, url, icon, highlighter}, index) => {
                 return (
-                  <li key={index.toString()} className={`flex items-center pl-5 mb-2 p-2 ${ pathname === url ? 'bg-white' : '' }`}>
+                  <li key={index.toString()} className={`flex items-center pl-5 mb-2 p-2 ${ pathname.includes(highlighter ?? url) ? 'bg-white' : '' }`}>
                   {/* <li key={index.toString()} className={`flex items-center pl-5 my-2 p-2 ${ pathname === url ? 'bg-white' : '' } relative before:absolute before:h-4 before:right-0 before:-top-1 before:bg-red-300 before:rounded-br-full before:w-full`}> */}
-                    <Link url={url} className={`flex items-center ${pathname === url ? '' : 'text-white'}`}>
+                    <Link url={url} className={`flex items-center ${pathname.includes(highlighter ?? url) ? '' : 'text-white'}`}>
                       {icon}
                       
                       <span className="font-medium text-lg ml-2">{name}</span>
@@ -55,12 +56,13 @@ console.log('Pathname of route ', pathname)
 const links = [
   {
     name: 'Dashboard',
-    url: '/',
+    url: '/dashboard',
     icon: <Icon.UilApps />
   },
   {
     name: 'Tickets',
-    url: '/tickets',
+    url: '/tickets/pending',
+    highlighter: '/tickets',
     icon: <Icon.UilTicket />
   },
   {

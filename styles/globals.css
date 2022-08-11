@@ -6,3 +6,11 @@
 .btn {
   @apply min-w-0 shadow-none hover:shadow-none;
 }
+
+.contained {
+  @apply max-w-7xl m-auto;
+}
+
+.table-paper > div {
+  @apply shadow-none border rounded-md p-3;
+}
