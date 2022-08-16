@@ -1,7 +1,55 @@
+import { useDispatch } from 'react-redux'
 import MaterialTable, {MTableToolbar} from '@material-table/core'
 import ApiMenu from 'components/widgets/api_menu'
+import { Btn } from 'components/widgets/btn'
+import { step_modal, show_modal } from 'hooks/redux/modal_reducer'
+// import { show_modal } from 'hooks/redux/types_&_actions'
+// import TicketForm from './form/ticket_form'
 
 export default function TicketsComponent() {
+  const dispatch = useDispatch()
+
+  const new_ticket = () => {
+    dispatch(show_modal({
+      method: 'post',
+      url: 'ticket/users',
+      content: 'ticket_user',
+      title: 'Search user details',
+      values: {
+        phone: ''
+      },
+      action: book_ticket
+    }))
+  }
+
+  const book_ticket = () => {
+    dispatch(step_modal({
+      method: 'post',
+      url: 'tickets',
+      content: 'ticket',
+      title: 'Book New Ticket',
+      validations: [
+        'basic_info',
+        'emergency_contact',
+        'preview'
+      ],
+      mutation: 'tickets',
+      values: {
+        firstname: '',
+        lastname: '',
+        phone: '',
+        emergency_contact: '',
+        origin: '',
+        destination: '',
+        date: '',
+        gender: '',
+        seat: '',
+      },
+      // width: 'w-[600px]'
+    }))
+  }
+
+    // console.log('Modal data', show_modal)
   return (
     <div className="contained table-paper">
 
@@ -58,11 +106,10 @@ export default function TicketsComponent() {
           },
         ]}
         data={tickets}
-        
         components={{
           Toolbar: (props) => (
             <>
-              <div className="w-full flex mb-3">
+              <div className="w-full flex mb-3 items-center">
                 <div className="grow">
                   <ApiMenu 
                     options={['Pending', 'Completed']}
@@ -72,6 +119,12 @@ export default function TicketsComponent() {
                 </div>
                 
                 <MTableToolbar {...props} />
+
+                <Btn 
+                  content="Book Ticket"
+                  className="btn bg-primary"
+                  click={new_ticket}
+                />
               </div> 
             </>
           )

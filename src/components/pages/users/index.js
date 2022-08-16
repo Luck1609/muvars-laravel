@@ -1,12 +1,11 @@
 import MaterialTable, {MTableToolbar} from '@material-table/core'
 import { useSelector } from 'react-redux'
 import * as Icon from '@iconscout/react-unicons'
-import ApiMenu from 'components/widgets/api_menu'
 import { Btn } from 'components/widgets/btn'
 import { show_modal } from 'hooks/redux/modal_reducer'
 import { useDispatch } from 'react-redux'
 
-export default function ScheduleComponent() {
+export default function UsersComponent() {
   const dispatch = useDispatch()
   const { modal  } = useSelector(state => state.ModalReducer)
 
@@ -16,22 +15,17 @@ export default function ScheduleComponent() {
   const add_schedule = () => {
     dispatch(show_modal({
       method: 'post',
-      url: 'tickets',
-      content: 'schedule',
-      title: 'Book New Ticket',
-      validations: 'schedule',
-      mutation: 'tickets',
+      url: 'users',
+      content: 'add_user',
+      title: 'Add new user',
+      validations: 'user',
+      mutation: 'users',
       values: {
-        driver: '',
-        bus: '',
+        name: '',
+        email: '',
         phone: '',
-        fare: '',
-        origin: '',
-        destination: '',
-        status: 1,
-        departure_time: '8:30am',
+        role: '',
       },
-      // width: 'w-[600px]'
     }))
   }
 
@@ -45,32 +39,20 @@ export default function ScheduleComponent() {
         columns={[
           {
             field: 'driver',
-            title: 'Driver'
+            title: 'Driver',
+            render: ({ firstname, lastname }) => <span className="">{ firstname }  { lastname }</span>
           },
           {
             field: 'phone',
             title: 'Phone'
           },
           {
-            field: 'seats',
-            title: 'No. of Seats'
+            field: 'email',
+            title: 'Email address'
           },
           {
-            field: 'fare',
-            title: 'Fare (GHc)'
-          },
-          {
-            field: 'bus_num',
-            title: 'Bus No.'
-          },
-          {
-            field: 'route',
-            title: 'Route',
-            render: ({ origin, destination }) => <span className="">{ origin } - { destination }</span>
-          },
-          {
-            field: 'departure_time',
-            title: 'Departure time'
+            field: 'role',
+            title: 'Role'
           },
           {
             field: 'status',
@@ -85,17 +67,19 @@ export default function ScheduleComponent() {
           Toolbar: (props) => (
             <>
               <div className="w-full flex mb-3 items-center">
-                <div className="grow">
+                {/* <div className="grow">
                   <ApiMenu 
                     options={['Pending', 'Completed']}
                     baseUrl="Pending"
                     apiUrl='tickets'
                   />
-                </div>
+                </div> */}
+                <h3 className="text-xl font-semibold grow ml-3">User Management</h3>
+
                 
                 <MTableToolbar {...props} />
                 <Btn 
-                  content={<span className="flex items-center justify-center"><Icon.UilPlus size={18} className="mr-1" /> Add schedule</span>}
+                  content={<span className="flex items-center justify-center"><Icon.UilPlus size={18} className="mr-1" /> Add new user</span>}
                   className="bg-primary h-10"
                   click={add_schedule}
                 />
@@ -112,36 +96,27 @@ export default function ScheduleComponent() {
 
 const schedules = [
   {
-    driver: 'Nathaniel Obeng',
+    firstname: 'Nathaniel',
+    last: 'Obeng',
     phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Sunyani',
+    email: 'lucky@gmail.com',
+    role: 'Agent',
     status: 1,
-    seats: 60,
-    bus_num: 'GA-1609-S',
-    departure_time: '8:30am',
   },
   {
-    driver: 'Larry Benson',
+    firstname: 'Larry',
+    last: 'Benson',
     phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Tamale',
+    email: 'lucky@gmail.com',
+    role: 'Driver',
     status: 1,
-    seats: 60,
-    bus_num: 'GA-2709-S',
-    departure_time: '6:00am',
   },
   {
-    driver: 'Jayson McLaurren',
-    phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Takoradi',
+    firstname: 'Jayson',
+    last: 'McLaurren',
+    phone: '0543124147',
+    email: 'lauren@gmail.com',
+    role: 'Supervisor',
     status: 1,
-    seats: 40,
-    bus_num: 'GA-0110-O',
-    departure_time: '9:30pm',
   },
 ]

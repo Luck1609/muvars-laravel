@@ -4,7 +4,7 @@ import SideNav from "./navbar/sidenav";
 
 export default function Layouts({ children }) {
   return (
-    <div className="relative">
+    <div className="relative bg-zinc-100">
       <Nav />
 
       <main className="pt-10">

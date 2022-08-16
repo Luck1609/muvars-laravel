@@ -14,7 +14,7 @@ export default function SideNav() {
   const toggleDrawer = () => {setState(!state)}
 
   const active_tab = pathname.split('/')[1]
-console.log('Pathname of route ', active_tab)
+// console.log('Pathname of route ', active_tab)
 
   return (
     <div>
@@ -62,8 +62,12 @@ const links = [
   {
     name: 'Tickets',
     url: '/tickets/pending',
-    highlighter: '/tickets',
     icon: <Icon.UilTicket />
+  },
+  {
+    name: 'Users',
+    url: '/users',
+    icon: <Icon.UilUsersAlt />
   },
   {
     name: 'Revenue',
