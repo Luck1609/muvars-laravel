@@ -1,9 +1,7 @@
-import Layouts from 'components/widgets/layouts'
+import HomepageComponent from 'components/pages/landing'
 
 export default function Home() {
   return (
-    <Layouts>
-      Home
-    </Layouts>
+    <HomepageComponent />
   )
 }

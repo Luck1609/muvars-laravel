@@ -11,6 +11,9 @@ module.exports = {
         "success": "#27ae60",
         "default": "#6d8494",
         "danger": "#f50000",
+      },
+      backgroundImage: {
+        'banner': "url('/img/blue_bus_2.jpg')"
       }
     },
   },
