@@ -1,5 +1,5 @@
 import Layouts from 'components/widgets/layouts'
-import DashboardComponent from 'components/pages/dashboard'
+import DashboardComponent from 'components/pages/management/dashboard'
 
 export default function Dashboard() {
   return (

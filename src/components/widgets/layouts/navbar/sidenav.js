@@ -86,7 +86,7 @@ const links = [
   },
   {
     name: 'Expense',
-    url: '/management/expense',
+    url: '/management/expenses',
     icon: <Icon.UilComparison />
   },
 ]

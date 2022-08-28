@@ -1,4 +1,4 @@
-import UsersComponent from 'components/pages/users'
+import UsersComponent from 'components/pages/management/users'
 import Layouts from 'components/widgets/layouts'
 import React from 'react'
 
