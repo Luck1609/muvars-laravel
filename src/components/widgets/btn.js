@@ -6,7 +6,7 @@ export const Btn = ({ content, className, variant, click, disabled }) => {
   return (
     <Button
       variant={ variant ?? 'contained' }
-      className={`${className} shadow-none hover:shadow-none capitalize ${ disabled && 'opacity-50' }`}
+      className={`${className} shadow-none hover:shadow-none capitalize inline-block ${ disabled && 'opacity-50' }`}
       style={{ textTransform: 'none'}}
       onClick={ click }
       disabled={ disabled }

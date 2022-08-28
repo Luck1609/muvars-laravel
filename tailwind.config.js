@@ -10,10 +10,14 @@ module.exports = {
         "primary": "#007bff",
         "success": "#27ae60",
         "default": "#6d8494",
+        "default-grey": "#282F37",
+        "default-gold": "#FFCC88",
         "danger": "#f50000",
       },
       backgroundImage: {
-        'banner': "url('/img/blue_bus_2.jpg')"
+        'banner': "url('/img/blue_bus_2.jpg')",
+        'coach': "url('/img/coach.jpg')",
+        'empty-seat': "url('/img/svg/empty.svg')",
       }
     },
   },

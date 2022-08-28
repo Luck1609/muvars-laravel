@@ -13,7 +13,7 @@ export default function SideNav() {
 
   const toggleDrawer = () => {setState(!state)}
 
-  const active_tab = pathname.split('/')[1]
+  const active_tab = pathname.split('/management/')[1]
 // console.log('Pathname of route ', active_tab)
 
   return (
@@ -56,37 +56,37 @@ export default function SideNav() {
 const links = [
   {
     name: 'Dashboard',
-    url: '/dashboard',
+    url: '/management/dashboard',
     icon: <Icon.UilApps />
   },
   {
     name: 'Tickets',
-    url: '/tickets/pending',
+    url: '/management/tickets/pending',
     icon: <Icon.UilTicket />
   },
   {
     name: 'Users',
-    url: '/users',
+    url: '/management/users',
     icon: <Icon.UilUsersAlt />
   },
   {
     name: 'Revenue',
-    url: '/revenue',
+    url: '/management/revenue',
     icon: <Icon.UilMoneyBill />
   },
   {
     name: 'Schedule',
-    url: '/schedule',
+    url: '/management/schedule',
     icon: <Icon.UilSchedule />
   },
   {
     name: 'Parcel',
-    url: '/parcel',
+    url: '/management/parcel',
     icon: <Icon.UilBox />
   },
   {
     name: 'Expense',
-    url: '/expense',
+    url: '/management/expense',
     icon: <Icon.UilComparison />
   },
 ]

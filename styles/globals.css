@@ -2,18 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Rubik', sans-serif;
+  @apply bg-slate-100 text-slate-500;
 }
+
+.bus-separator {
+  @apply w-14 h-[1px] bg-blue-500 mx-5 relative 
+          before:absolute before:-left-2.5 before:h-[10px] before:w-[10px] before:border before:border-blue-500 before:rounded-full before:-top-[5px]
+          after:absolute after:-right-2.5 after:h-[10px] after:w-[10px] after:border after:border-blue-500 after:rounded-full after:-top-[5px]
+}
+/* h1, h2, h3, h4, h5, h6 {
+  font-family: 'Rubik', sans-serif;
+} */
 
 .btn {
   @apply min-w-0 shadow-none hover:shadow-none;
 }
 
 .contained {
-  @apply max-w-7xl m-auto;
+  @apply max-w-[1140px] m-auto;
 }
 
 .table-paper > div {

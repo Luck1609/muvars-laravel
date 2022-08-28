@@ -1,17 +1,14 @@
-import { Avatar } from '@mui/material'
+import Nav from "./nav";
 
-export default function Nav() {
+
+export default function Layout({ children }) {
   return (
-    <nav className="flex w-full bg-[#007bff]">
-      <div className="contained w-full flex py-3 items-center">
-        <div className="grow">
-          <label className="text-2xl font-bold">SmartTkt</label>
-        </div>
+    <>
+      <Nav />
 
-        <div className="">
-          <Avatar src="" alt="" />
-        </div>
-      </div>
-  </nav>
+      <main className="w-full">
+        { children }
+      </main>
+    </>
   )
 }
