@@ -18,6 +18,9 @@ module.exports = {
         'banner': "url('/img/blue_bus_2.jpg')",
         'coach': "url('/img/coach.jpg')",
         'empty-seat': "url('/img/svg/empty.svg')",
+        'empty-seat-v': "url('/img/svg/empty_vertical.svg')",
+        'occupied-seat': "url('/img/svg/occupied_seat.svg')",
+        'occupied-seat-v': "url('/img/svg/occupied_vertical.svg')",
       }
     },
   },

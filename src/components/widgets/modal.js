@@ -40,7 +40,8 @@ export default function FormModal() {
     }
   }
 
-  const Component = modals[data?.content]
+  const Component = data?.content
+  // const Component = modals[data?.content]
 
   if (!state) return <></>
   else {
@@ -79,7 +80,7 @@ export default function FormModal() {
                   <FormBtn
                     content="submit"
                     disabled={!isDirty || !isValid}
-                    className=" btn bg-teal h-12 w-40 rounded-full"
+                    className="btn bg-teal h-12 w-56"
                   />
                 </div>
               </footer>

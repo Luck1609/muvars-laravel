@@ -21,7 +21,7 @@ export default function Search() {
 
   return (
     <div className="w-full bg-banner h-[350px] bg-cover relative flex items-end flex-col before:absolute before:top-0 before:left-0 before:bg-blue-500 before:w-full before:h-full before:bg-opacity-30">
-      <h1 className="m-auto text-3xl lg:text-5xl font-bold text-white z-10 max-w-3xl text-center leading-snug">Search Join and book you next travelling ticket with us!</h1>
+      <h1 className="m-auto text-3xl lg:text-5xl font-bold text-white z-10 max-w-3xl text-center leading-snug">Search and book you next travelling ticket with us!</h1>
 
       <div className="w-full max-w-5xl rounded-md bg-blue-600 py-5 bg-opacity-90 z-10 mx-auto  lg:-mb-[90px]">
         <FormProvider {...methods}>

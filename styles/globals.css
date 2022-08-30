@@ -24,7 +24,7 @@ body {
 }
 
 .contained {
-  @apply max-w-[1140px] m-auto;
+  @apply max-w-[1140px] m-auto px-3 lg:px-0;
 }
 
 .table-paper > div {

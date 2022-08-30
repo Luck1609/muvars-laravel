@@ -36,19 +36,11 @@ export default function PhoneNumberInput ({ name, label, className }) {
             value={Array.isArray(value) ? '' : value }
             onChange={onChange}
             className={`border border-[#0000003b] ${className}`}
+            label="Phone number"
+
           />
         </>
       )} 
     />
   )
 }
-  // return (
-  //   <PhoneInputWithCountry
-  //     name={name}
-  //     defaultCountry="GH"
-  //     control={control}
-  //     rules={{ required: true }} 
-  //     className=""
-  //     flagUrl={GH}
-  //   />
-  // )

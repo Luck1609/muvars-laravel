@@ -1,39 +1,27 @@
-import { buses } from "assets/img/bus";
-import Image from "next/image";
-import * as Icons from "@iconscout/react-unicons";
-import Svg from "assets/img/svg";
-import { Btn } from "components/widgets/btn";
-import { FormProvider, useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { buses } from "assets/img/bus"
+import Image from "next/image"
+// import * as Icons from "@iconscout/react-unicons"
+import { Btn } from "components/widgets/btn"
+import { useRouter } from "next/router"
 
 export default function ScheduleCard() {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter()
 
-  const methods = useForm();
-
-  const { handleSubmit } = methods;
-
-  const submit = () => {};
-
-  let seats = [];
-
-  for (let i = 1; i <= 44; i++) {
-    seats = [...seats, { label: `Seat No: ${i}`, value: i }];
-  }
+  
 
   return (
     <>
-      <div className="w-full grid grid-cols-4 rounded-[3px] overflow-hidden bg-white shadow">
-        <div className="w-full">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-4 rounded-[3px] overflow-hidden bg-white shadow">
+        <div className="w-full lg:w-full order-1">
           <Image src={buses.bus_1} alt="" layout="responsive" />
         </div>
 
-        <div className="col-span-2 ml-5 p-3">
+        <div className="col-span-2 lg:ml-5 p-3 order-3 lg:order-2">
           <div className="flex items-start mb-3">
             <h3 className="text-lg font-semibold grow">VIP Bus</h3>
           </div>
 
-          <div className="flex items-center mb-2">
+          <div className="flex items-center mb-2 text-center">
             <div className="text-sm flex items-center justify-center flex-col">
               <span className="font-semibold">Accra (Departure)</span>
 
@@ -55,60 +43,23 @@ export default function ScheduleCard() {
           </div>
         </div>
 
-        <div className="text-center text-green-500 border-l p-5">
+        <div
+          className={`${
+            pathname !== "bus-schedule" ? "flex flex-col lg:justify-center" : ""
+          } text-center text-green-500 border-l p-2.5 lg:p-5 order-2 lg:order-3 lg:w-auto`}
+        >
           <p className="font-semibold">Available seats</p>
           <label className="block font-semibold text-lg">21</label>
 
           {pathname !== "/bus-schedules" ? null : (
             <Btn
               content="Book now"
-              className="bg-blue-500 hover:bg-blue-600 mt-2"
+              className="bg-blue-500 hover:bg-blue-600 mt-2 w-28 mx-auto lg:w-auto"
+              click={() => push("/bus-schedules/vip-bus")}
             />
           )}
         </div>
       </div>
-
-      {pathname !== "/bus-schedules" ? (
-        <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(submit)} className="">
-            <div className="col-span-2 w-56 grid grid-cols-4 gap-y-3 bg-white">
-              {seats.map(({ value }, index) => {
-                return (
-                  <div
-                    className="w-12 h-12 text-white bg-empty-seat bg-cover rotate-90"
-                    key={index.toString()}
-                  ></div>
-                );
-              })}
-              {/* <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div>
-            <div className="bg-rose-500 h-8"></div> */}
-            </div>
-            <div className=""></div>
-          </form>
-        </FormProvider>
-      ) : null}
     </>
   );
 }
