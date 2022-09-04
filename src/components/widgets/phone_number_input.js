@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 import Input from 'react-phone-number-input/input';
@@ -10,7 +10,7 @@ import Input from 'react-phone-number-input/input';
 
 
 export default function PhoneNumberInput ({ name, label, className }) {
-
+  const [active, setActive] = useState(false)
   const { control, watch, trigger } = useFormContext()
   let v = watch(name)
 
@@ -20,15 +20,16 @@ export default function PhoneNumberInput ({ name, label, className }) {
 
   // console.log('Phone number errors', errors, watch(name))
 
+  const change_state = () => setActive(!active)
 
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onChange, onBlur, value = '' }, fieldState: { error } }) => (
-        <>
+        <div className="relative">
           { 
-            label ? <label className="font-medium text-sm block mb-2">{label}</label> : null
+            label ? <label className={`block mb-2 absolute ${ active ? '-top-2.5 bg-white px-2' : 'top-4' } left-4 font-light`} onClick={change_state}>{label}</label> : null
           }
           
           <Input
@@ -39,7 +40,7 @@ export default function PhoneNumberInput ({ name, label, className }) {
             label="Phone number"
 
           />
-        </>
+        </div>
       )} 
     />
   )
