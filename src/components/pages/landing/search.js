@@ -29,10 +29,6 @@ export default function Search() {
             <div className="flex col-span-4 items-center mb-3">
               <label className="grow block text-2xl font-semi-bold text-white">Where should we take you?</label>
               
-              <FormBtn 
-                content="Search"
-                className="bg-rose-500 hover:bg-rose-600 h-12 w-36"
-              />
             </div>
             <Input 
               name="origin"
@@ -52,17 +48,15 @@ export default function Search() {
               type="datetime-local"
               className="w-full bg-white rounded-md mb-5 lg:mb-0"
               InputLabelProps={
-              {
+                {
                   shrink: true,
                 }
               }
             />
-
-            <Input 
-              name="passengers"
-              label="Number of passengers"
-              className="w-full bg-white rounded-md mb-5 lg:mb-0"
-              type="number"
+            
+            <FormBtn 
+              content="Search"
+              className="bg-rose-500 hover:bg-rose-600 h-14"
             />
           </form>
         </FormProvider>

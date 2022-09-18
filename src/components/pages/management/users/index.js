@@ -1,7 +1,8 @@
-import MaterialTable, {MTableToolbar} from '@material-table/core'
+import {MTableToolbar} from '@material-table/core'
 import { useSelector } from 'react-redux'
 import * as Icon from '@iconscout/react-unicons'
 import { Btn } from 'components/widgets/btn'
+import MTableComponent from "components/widgets/mtable";
 import { show_modal } from 'hooks/redux/modal_reducer'
 import { useDispatch } from 'react-redux'
 
@@ -32,7 +33,7 @@ export default function UsersComponent() {
   return (
     <div className="contained table-paper">
 
-      <MaterialTable 
+      <MTableComponent 
         title=""
         options={{ draggable: false }}
         selectable

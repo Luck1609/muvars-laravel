@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react'
-import useSWR from 'swr'
-import Axios from 'axios'
-import { toast } from 'react-toastify'
-import useAPIContext from './api_context'
-import { useRouter } from 'next/router'
+import { useCallback, useEffect } from 'react';
+import useSWR from 'swr';
+import Axios from 'axios';
+import useAPIContext from './api_context';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 export const axios = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -17,8 +17,8 @@ export const axios = Axios.create({
 
 
 export const useAuth = ({ middleware }) => {
-  const { push } = useRouter()
   const { makeRequest } = useAPIContext();
+  const router = useRouter();
 
   // Check if user exist in database
   const { data: user, error, mutate } = useSWR('staff-data');
@@ -56,7 +56,7 @@ export const useAuth = ({ middleware }) => {
     makeRequest({
       method: 'post',
       url: 'reset-password',
-      // payload: {...payload, token: query.token}
+      // payload: {...payload, token: router.query.token}
     });
   }
 
@@ -81,13 +81,13 @@ export const useAuth = ({ middleware }) => {
   
 
   useEffect(() => {
-    if (middleware === 'guest' && user) push('/dashboard');
+    if (middleware === 'guest' && user) router.push('/dashboard');
     // If user is not authenticated, kick them out
     if (middleware === 'auth' && !user && error) {
       toast.error('Please login to continue')
-      !error ? logout() : push('/login')
+      !error ? logout() : router.push('/login')
     };
-  }, [user, middleware, push, error, logout])
+  }, [user, middleware, router, error, logout])
 
   return {
     user,

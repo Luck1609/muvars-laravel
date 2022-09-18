@@ -29,7 +29,7 @@ export default function PhoneNumberInput ({ name, label, className }) {
       render={({ field: { onChange, onBlur, value = '' }, fieldState: { error } }) => (
         <div className="relative">
           { 
-            label ? <label className={`block mb-2 absolute ${ active ? '-top-2.5 bg-white px-2' : 'top-4' } left-4 font-light`} onClick={change_state}>{label}</label> : null
+            label ? <label className={`block mb-2 absolute ${ active || value ? '-top-2.5 bg-white px-2' : 'top-4' } left-4 font-light`} onClick={change_state}>{label}</label> : null
           }
           
           <Input

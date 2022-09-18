@@ -20,6 +20,7 @@ body {
 } */
 
 .btn {
+  font-family: 'Rubik', sans-serif !important;
   @apply min-w-0 shadow-none hover:shadow-none;
 }
 
@@ -28,5 +29,5 @@ body {
 }
 
 .table-paper > div {
-  @apply shadow-none border rounded-md p-3;
+  @apply shadow-none;
 }

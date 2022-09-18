@@ -1,12 +1,12 @@
-import Link from "next/link"
+import LinkItem from "next/link"
 
-export default function LinkItem({ url, children, className }) {
+export default function Link({ url, children, className }) {
   return (
-    <Link href={url}>
+    <LinkItem href={url}>
       <a className={className}>
         { children }
       </a>
-    </Link>
+    </LinkItem>
   )
 }
 

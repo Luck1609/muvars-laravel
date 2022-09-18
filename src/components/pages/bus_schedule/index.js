@@ -1,4 +1,4 @@
-import Layout from "components/widgets/layouts/users_nav";
+import Layout from "components/layouts/users_nav";
 import ScheduleCard from "./schedule_card";
 
 

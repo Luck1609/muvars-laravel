@@ -1,6 +1,7 @@
-import MaterialTable, {MTableToolbar} from '@material-table/core'
+import {MTableToolbar} from '@material-table/core'
 import { useSelector } from 'react-redux'
 import * as Icon from '@iconscout/react-unicons'
+import MTableComponent from "components/widgets/mtable";
 import ApiMenu from 'components/widgets/api_menu'
 import { Btn } from 'components/widgets/btn'
 import { show_modal } from 'hooks/redux/modal_reducer'
@@ -38,7 +39,7 @@ export default function ScheduleComponent() {
   return (
     <div className="contained table-paper">
 
-      <MaterialTable 
+      <MTableComponent 
         title=""
         options={{ draggable: false }}
         selectable

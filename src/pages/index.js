@@ -1,6 +1,7 @@
 import HomepageComponent from 'components/pages/landing'
 
-export default function Home() {
+export default function Home(props) {
+
   return (
     <HomepageComponent />
   )

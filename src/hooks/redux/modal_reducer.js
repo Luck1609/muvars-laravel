@@ -38,6 +38,16 @@ export const initialState = {
       action: null,
       button: null
     }
+  },
+  auth_modal: {
+    state: false,
+    data: {
+      title: null,
+      content: null,
+      validation: null,
+      url: null,
+      values: null
+    }
   }
 }
 
@@ -50,6 +60,18 @@ const ModalReducer = createSlice({
         ...state,
         modal: payload === 'close' ? 
         initialState.modal : 
+        {
+          state: true, 
+          data: payload
+        }
+      }
+    },
+
+    show_auth_modal: (state, {payload}) => {
+      return { 
+        ...state,
+        auth_modal: payload === 'close' ? 
+        initialState.auth_modal : 
         {
           state: true, 
           data: payload
@@ -84,5 +106,5 @@ const ModalReducer = createSlice({
 }) 
 
 
-export const { show_modal, show_notice, step_modal } = ModalReducer.actions
+export const { show_modal, show_notice, step_modal, show_auth_modal } = ModalReducer.actions
 export default ModalReducer.reducer

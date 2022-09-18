@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "components/widgets/layouts/users_nav";
+import Layout from "components/layouts/users_nav";
 import Hero from "./hero";
 import HireBusCard from "./hire_bus_card";
 

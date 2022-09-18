@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
-import Layout from "components/widgets/layouts/users_nav";
+import Layout from "components/layouts/users_nav";
 import ScheduleCard from "./schedule_card";
 import { useState } from "react";
 import BookingFormDetails from "./widgets/booking_form_details";

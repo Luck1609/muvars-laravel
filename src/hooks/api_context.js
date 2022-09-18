@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import HttpReq from 'helpers/axios'
 import { toast } from 'react-toastify'
 import { useSWRConfig } from 'swr'
+import axios from 'axios';
 
 export default function useAPIContext() {
   const [info, setInfo] = useState(null);
@@ -15,7 +16,6 @@ export default function useAPIContext() {
         const toast_id = toast.loading("Processing request, please wait...")
 
         try {
-          await http.get('sanctum/csrf-cookie');
           const { message } = await http[method](url, payload, options);
 
           mutate(mutation) 
@@ -27,9 +27,8 @@ export default function useAPIContext() {
             autoClose: true
           });
           
-          setInfo(null);
-          if (action) action();
-          if (url === 'login') window.location.href = '/dashboard';
+          // setInfo(null);
+          // if (action) action();
         }
         catch ({ message }) {
           toast.update(toast_id, {

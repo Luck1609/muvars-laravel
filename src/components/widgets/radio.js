@@ -22,12 +22,12 @@ export default function RadioOptions({ name, label, options = [], placement = 'e
       name={name}
       render={({ field: { onChange, onBlur, value = '' }, fieldState: { error } }) => (
         <FormControl>
-          <FormLabel id="demo-form-control-label-placement">{label}</FormLabel>
           <RadioGroup
             row
             aria-labelledby="demo-form-control-label-placement"
-            name={name}
-            defaultValue={value}
+            // name={name}
+            value={value}
+            onChange={onChange}
           >
             {
               options.map(({ label, value }, index) => {

@@ -1,25 +1,24 @@
 import React from 'react'
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Btn } from './btn'
 import * as Icons from '@iconscout/react-unicons'
+import { show_notice } from 'hooks/redux/modal_reducer';
 
 
 
 
 export default function NoticeModal() {
-  // const { dispatch } = useSelector()
-  // const { dispatch, notice: { state, data:{title, content, btn, btnComponent = false, action} } } = useSelector()
-  
-  // const {notice: { state, data:{title, content, btn, btnComponent = false, action} }} = notice
+  const { notice: { state, data: {content, title, btnComponent = false, btn, action} } } = useSelector(state => state.ModalReducer)
+  const dispatch = useDispatch()
 
 
-  // if (!open) return <></>
+  if (!state) return <></>
   return (
-    <div className="h-screen w-screen fixed top-0 left-0 bg-dark bg-opacity-50 flex" style={{ zIndex: '999' }}>
-      {/* <div className="bg-white text-slate-500 text-center w-full relative max-w-500 p-8 m-auto rounded-md">
+    <div className="h-screen w-screen fixed top-0 left-0 bg-black bg-opacity-50 flex" style={{ zIndex: '999' }}>
+      <div className="bg-rose-500 text-white text-center w-full relative max-w-[500px] p-8 m-auto rounded-md">
         <Btn 
           content={<Icons.UilTimes className="min-w-0" />}
-          click={() => dispatch(showNotice('close'))}
+          click={() => dispatch(show_notice('close'))}
           className="btn p-2 shadow-none text-slate-500 hover:shadow-none absolute right-2 top-1 hover:bg-slate-50"
         />
         
@@ -35,14 +34,14 @@ export default function NoticeModal() {
                 className="btn bg-green-500 hover:bg-green-600 h-12"
                 click={ () => {
                   action()
-                  dispatch(showNotice('close'))
+                  dispatch(show_notice('close'))
                 }}
               />
             ) : btn
           }
         </div>
 
-      </div> */}
+      </div>
     </div>
   )
 };

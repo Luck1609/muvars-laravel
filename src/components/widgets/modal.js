@@ -34,14 +34,13 @@ export default function FormModal() {
         url: data?.url,
         payload,
         mutation: data?.mutation,
-        action: () => data?.action ?? dispatch(show_modal('close'))
+        // action: () => data?.action ?? dispatch(show_modal('close'))
       })
     } catch ({ message }) {
     }
   }
 
   const Component = data?.content
-  // const Component = modals[data?.content]
 
   if (!state) return <></>
   else {
@@ -80,7 +79,7 @@ export default function FormModal() {
                   <FormBtn
                     content="submit"
                     disabled={!isDirty || !isValid}
-                    className="btn bg-teal h-12 w-56"
+                    className="btn bg-green-500 hover:bg-green-600 h-12 w-56"
                   />
                 </div>
               </footer>

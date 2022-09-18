@@ -6,14 +6,12 @@ export default class HttpReq {
   constructor() {
 
     this.http = axios.create({
-      baseURL: 'http://localhost:8000/'
+      baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`
     });
 
     this.http.defaults.withCredentials = true;
     this.http.interceptors.request.use(
       function (config) {
-        // console.log('Axios interceptor', config)
-        // config.headers.Accept = "application/json, text/plain, multipart/form-data, */*"
         return config
       },
       function (error) {
