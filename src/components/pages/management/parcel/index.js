@@ -6,6 +6,7 @@ import ApiMenu from 'components/widgets/api_menu'
 import { Btn } from 'components/widgets/btn'
 import { show_modal } from 'hooks/redux/modal_reducer'
 import { useDispatch } from 'react-redux'
+import { schedule_validation } from 'components/validations';
 
 export default function ParcelComponent() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ export default function ParcelComponent() {
       url: 'tickets',
       content: 'schedule',
       title: 'Book New Ticket',
-      validations: 'schedule',
+      validations: schedule_validation,
       mutation: 'tickets',
       values: {
         driver: '',

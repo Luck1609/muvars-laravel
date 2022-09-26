@@ -29,12 +29,12 @@ export default function FormModal() {
   const submit = async (payload) => {
 
     try {
-      await makeRequest({
+      makeRequest({
         method: data?.method,
         url: data?.url,
         payload,
         mutation: data?.mutation,
-        // action: () => data?.action ?? dispatch(show_modal('close'))
+        action: () => data?.action ?? dispatch(show_modal('close'))
       })
     } catch ({ message }) {
     }

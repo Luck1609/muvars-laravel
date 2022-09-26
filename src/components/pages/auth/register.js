@@ -62,7 +62,7 @@ export default function Register() {
           click={
             () => dispatch(
               show_auth_modal({
-                url: 'login',
+                url: '/login',
                 title: 'Login',
                 content: Login,
                 values: {

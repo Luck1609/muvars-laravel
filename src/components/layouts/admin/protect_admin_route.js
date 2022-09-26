@@ -15,7 +15,8 @@ export default function ProtectedAdminLayout({ children }) {
 
       <main className="w-full flex py-5 overflow-y-scroll">
         <Sidebar open={open} />
-        <div className="w-full">
+        
+        <div className="w-full lg:ml-4">
           { children }
         </div>
       </main>

@@ -21,6 +21,8 @@ module.exports = {
         'empty-seat-v': "url('/img/svg/empty_vertical.svg')",
         'occupied-seat': "url('/img/svg/occupied_seat.svg')",
         'occupied-seat-v': "url('/img/svg/occupied_vertical.svg')",
+        'wallpaper': "url('/img/wallpaper.webp')",
+        'event-wallpaper': "url('/img/event.jpg')",
       }
     },
   },

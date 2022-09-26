@@ -21,7 +21,8 @@ export const useAuth = ({ middleware }) => {
   const router = useRouter();
 
   // Check if user exist in database
-  const { data: user, error, mutate } = useSWR('staff-data');
+  // const { data: user, error, mutate } = useSWR('');
+  const { data: user, error, mutate } = useSWR('/user-data');
 
   const register = async ({ payload }) => {
     makeRequest({
@@ -79,6 +80,7 @@ export const useAuth = ({ middleware }) => {
     [error, makeRequest]
   )
   
+  // console.log('Auth user agency', user?.data)
 
   useEffect(() => {
     if (middleware === 'guest' && user) router.push('/dashboard');
@@ -87,10 +89,14 @@ export const useAuth = ({ middleware }) => {
       toast.error('Please login to continue')
       !error ? logout() : router.push('/login')
     };
+    if (middleware === 'manager' && !user?.data.agency_id && error) {
+      toast.error('Access denied, you are not authorized to visit this section')
+      router.push('/');
+    }
   }, [user, middleware, router, error, logout])
 
   return {
-    user,
+    user: user?.data,
     error,
     register,
     login,
@@ -98,7 +104,6 @@ export const useAuth = ({ middleware }) => {
     resetPassword,
     resendEmailVerification,
     logout,
-    // lockAccount
   }
 }
 

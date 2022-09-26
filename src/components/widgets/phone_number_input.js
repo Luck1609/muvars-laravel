@@ -29,14 +29,14 @@ export default function PhoneNumberInput ({ name, label, className }) {
       render={({ field: { onChange, onBlur, value = '' }, fieldState: { error } }) => (
         <div className="relative">
           { 
-            label ? <label className={`block mb-2 absolute ${ active || value ? '-top-2.5 bg-white px-2' : 'top-4' } left-4 font-light`} onClick={change_state}>{label}</label> : null
+            label ? <label className={`block mb-2 absolute ${ active || value ? '-top-2.5 bg-white px-2 text-sm' : 'top-4' } left-4`} onClick={change_state}>{label}</label> : null
           }
           
           <Input
             country="GH"
             value={Array.isArray(value) ? '' : value }
             onChange={onChange}
-            className={`border border-[#0000003b] ${className}`}
+            className={`border border-[#0000003b] pl-3 ${className}`}
             label="Phone number"
 
           />

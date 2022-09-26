@@ -1,10 +1,10 @@
 import Nav from "./nav";
 
 
-export default function Layout({ children }) {
+export default function Layout({ children, user }) {
   return (
     <>
-      <Nav />
+      <Nav user={user} />
 
       <main className="w-full">
         { children }

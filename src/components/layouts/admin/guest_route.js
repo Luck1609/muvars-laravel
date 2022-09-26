@@ -6,14 +6,13 @@ import { useRouter } from "next/router";
 
 // import * as UIcons from '@iconscout/react-unicons'
 import { Btn, FormBtn } from "components/widgets/btn";
-import { useAdminAuth } from "hooks/admin_auth";
 
 export default function GuestLayout({ children }) {
   const { pathname, push } = useRouter();
 
-  const { login, forgotPassword, register, resetPassword } = useAdminAuth({
-    middleware: "guest"
-  });
+  // const { login, forgotPassword, register, resetPassword } = useAdminAuth({
+  //   middleware: "guest"
+  // });
 
   const submitForm = async (payload) => {
     switch (pathname) {

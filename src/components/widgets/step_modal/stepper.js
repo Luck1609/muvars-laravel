@@ -1,10 +1,9 @@
 import React from 'react'
-import * as Icons from '@iconscout/react-unicons'
 import { useFormContext } from 'react-hook-form'
 import MobileStepper from '@mui/material/MobileStepper'
 import { Btn, FormBtn } from '../btn'
 
-export default function Stepper({ step, setStep }) {
+export default function Stepper({ step, setStep, total, preview }) {
 
   const { formState: {isDirty, isValid}} = useFormContext();
 
@@ -22,23 +21,25 @@ export default function Stepper({ step, setStep }) {
     <>
       <MobileStepper
         variant="dots"
-        steps={5}
+        steps={total}
         position="static"
         activeStep={step}
         className="grow bg-transparent"
         nextButton={
-          step === 2 ? (
+          step === (total - 1) ? (
             <FormBtn
               content={<span className="flex items-center">Submit</span>}
               disabled={!isDirty || !isValid}
-              className="btn bg-teal h-12 rounded-full"
+              className="btn bg-green-500 hover:bg-green-600 h-10 rounded"
             />
           ) : (
-
             <Btn
-              content={<span className="flex items-center">
-                {step === 1 ? "Preview" : "Next"}</span>}
-              className="btn h-12 bg-primary"
+              content={
+                <span className="flex items-center">
+                  {step === (total - 2) ? "Preview" : "Next"}
+                </span>
+              }
+              className="btn h-10 bg-primary"
               disabled={!isDirty || !isValid}
               click={handleNext}
             />
@@ -47,7 +48,7 @@ export default function Stepper({ step, setStep }) {
         backButton={
           <Btn
             content={<span className="flex items-center">Back</span>}
-            className="btn h-12 bg-primary"
+            className="btn h-10 bg-primary"
             click={handleBack}
             disabled={step === 0}
           />

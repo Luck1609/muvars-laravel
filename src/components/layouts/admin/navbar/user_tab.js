@@ -1,4 +1,3 @@
-import { useSession, signOut } from 'next-auth/react'
 import { useDispatch } from 'react-redux'
 import { Btn } from 'components/widgets/btn'
 import MenuItem from '@mui/material/MenuItem'
@@ -9,39 +8,34 @@ import { useRouter } from 'next/router'
 import * as Icons from '@iconscout/react-unicons'
 import CustomMenu from 'components/widgets/menu_item'
 import { show_auth_modal } from 'hooks/redux/modal_reducer'
-import Login from 'components/pages/auth/login'
-import Register from 'components/pages/auth/register'
+import HttpReq from 'helpers/axios'
+
 
 
 export default function UserTab() {
-  const { data: session } = useSession()
-  // const {  } = useAuth({ middleware: 'neutral' })
+  const { logout, user } = useAuth({middleware: ''});
   const { push } = useRouter()
   const dispatch = useDispatch()
 
   const goto = (route) => push(route);
 
-  // console.log('Authenticated session', session)
-
   return (
     <>
-    
         {
-          !session?.user ? (
+          !user ? (
             <div className="flex">
               <Btn 
                 content="Login"
                 className="bg-rose-500 hover:bg-rose-600"
                 click={() => dispatch(
                     show_auth_modal({
-                      url: "login",
+                      url: "/login",
                       title: "Login",
-                      content: Login,
+                      content: 'login',
                       values: {
                         email: "",
                         password: "",
                       },
-                      validation: "",
                       width: "w-[350px]",
                     })
                   )
@@ -52,9 +46,9 @@ export default function UserTab() {
                 className="bg-green-500 hover:bg-green-600 ml-4"
                 click={() => dispatch(
                     show_auth_modal({
-                      url: "register",
+                      url: "/register",
                       title: "Register",
-                      content: Register,
+                      content: 'register',
                       values: {
                         firstname: "",
                         lastname: "",
@@ -64,7 +58,6 @@ export default function UserTab() {
                         password: "",
                         password_confirmation: "",
                       },
-                      validation: "",
                       width: "w-[550px]",
                     })
                   )
@@ -79,8 +72,7 @@ export default function UserTab() {
                     <div className="flex items-center text-slate-500">
                       <Avatar src="" alt="NO" />
                       <div className="">
-                        <span className="ml-2 font-medium">{session.user.name ?? `${session.user.firstname} ${session.user.lastname}`}</span>
-                        {/* <span className="ml-2 text-sm font-medium block">{user.role}</span> */}
+                        <span className="ml-2 font-medium">{user.name ?? `${user.firstname} ${user.lastname}`}</span>
                       </div>
                     </div>
                   </>}
@@ -94,7 +86,7 @@ export default function UserTab() {
                     Icon={() => <Icons.UilUser />}
                     click={() => {
                         goto('/settings/profile-settings');
-                        // close()
+                        close()
                       }
                     }
                   />
@@ -103,7 +95,10 @@ export default function UserTab() {
                   name: ({close}) => <Item
                     label="Logout"
                     Icon={() => <Icons.UilSignout />}
-                    click={signOut}
+                    click={() => {
+                      logout();
+                      close()
+                    }}
                   />
                 }
               ]}
@@ -113,6 +108,8 @@ export default function UserTab() {
     </>
   )
 }
+
+
 
 
 export const Item = ({ label, Icon, click }) => <MenuItem className="border-b border w-[230px] px-3" onClick={click}>

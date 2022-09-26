@@ -1,5 +1,4 @@
 import * as Icons from "@iconscout/react-unicons";
-import { signIn } from "next-auth/react";
 import { buses } from "assets/img/bus";
 import { Btn, FormBtn } from "components/widgets/btn";
 import Input from "components/widgets/input";
@@ -12,7 +11,6 @@ import Register from "./register";
 export default function Login() {
   const dispatch = useDispatch();
 
-  const handle_auth = (provider) => () => signIn(provider);
 
   return (
     <div className="w-4/5 mx-auto grid gap-5 pb-8">
@@ -28,7 +26,7 @@ export default function Login() {
           click={() =>
             dispatch(
               show_auth_modal({
-                url: "register",
+                url: "/register",
                 title: "Register",
                 content: Register,
                 values: {

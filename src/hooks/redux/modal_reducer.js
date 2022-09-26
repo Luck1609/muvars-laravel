@@ -80,6 +80,7 @@ const ModalReducer = createSlice({
     },
 
     step_modal: (state, {payload}) => {
+      console.log('step modal payload', payload)
       return { 
         ...state,
         step_modal: payload === 'close' ? 

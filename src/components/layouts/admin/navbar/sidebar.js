@@ -77,6 +77,12 @@ const links = [
     highlight: '/management/expenses',
     icon: <Icon.UilComparison />
   },
+  {
+    name: 'Settings',
+    url: '/management/settings',
+    highlight: '/management/settings',
+    icon: <Icon.UilSetting />
+  },
 ]
 
 

@@ -1,7 +1,7 @@
 import LinkItem from "components/widgets/link";
 import UserTab from "../admin/navbar/user_tab";
 
-export default function Nav() {
+export default function Nav({ user }) {
 
   return (
     <nav className="flex w-full bg-[#007bff] text-white">
