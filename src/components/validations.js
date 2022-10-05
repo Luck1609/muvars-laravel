@@ -18,33 +18,43 @@ export const event1_validation = yup.object().shape({
 export const event2_validation = yup.object().shape({
   cover_photo: yup.mixed().notRequired()
     .test('image-type', 'Image type must be (JPG or PNG)', (img) => {
-      if (img) return !/jpg|jpeg|png/.test(img.type)
+      return !/jpg|jpeg|png/.test(img[0].type)
     })
     .test('image-size', 'Image must not be larger than 2Mb', (img, context) => {
-      if (img) 
-        return img && img[0]?.size <= 2097152
+      return img && img[0]?.size <= 2097152
     }),
 
   flyer: yup.mixed().notRequired()
     .test('image-type', 'Image type must be (JPG or PNG)', (img) => {
-      if (img) return !/jpg|jpeg|png/.test(img.type)
+      return !/jpg|jpeg|png/.test(img[0].type)
     })
     .test('image-size', 'Image must not be larger than 2Mb', (img) => {
-      if (img) 
-        return img && img[0]?.size <= 2097152
+      return img && img[0]?.size <= 2097152
     }),
+})
+
+export const search_event_user_validation = yup.object().shape({
+  token: yup.string().required()
 })
 
 export const event_user_validation = yup.object().shape({
   phone: yup.string().required(),
-  email: yup.number().required(),
+  email: yup.string().email().required(),
+  event_id: yup.number().required(),
+  pickup_point_id: yup.number('Pickup location cannot be empty').required(),
+})
+
+export const event_pickup_validation = yup.object().shape({
+  location: yup.string().required(),
+  time: yup.string().required(),
+  departure: yup.string().notRequired(),
   event_id: yup.number().required(),
 })
 
 export const event_verifier_validation = yup.object().shape({
   name: yup.string().required(),
   phone: yup.string().required(),
-  email: yup.number().required(),
+  email: yup.string().email().required(),
   event_id: yup.number().required(),
 })
 
@@ -74,7 +84,17 @@ export const bus_validation = yup.object().shape({
   plate_no: yup.string().required(),
   color: yup.string().required(),
   seat_arrangement_style: yup.number().required()
-  
+}) 
+
+export const bus_validation_2 = yup.object().shape({
+  pictures: yup.mixed()
+    .required()
+    .test('img_size', 'Image must not be larger than 2Mb', (img) => {
+      if (img) return img[0].size <= 2048
+    })
+    .test('img_type', 'Image must be jpg or png', (img) => {
+      if (img) return /png/.test(img[0].type)
+    }),
 }) 
 
 

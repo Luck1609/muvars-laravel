@@ -106,6 +106,12 @@ const admin_links = [
     icon: <Icon.UilUsersAlt />
   },
   {
+    name: 'Events',
+    url: '/admin/events',
+    highlight: '/admin/events',
+    icon: <Icon.UilSchedule />
+  },
+  {
     name: 'Settings',
     url: '/admin/settings',
     highlight: '/admin/settings',

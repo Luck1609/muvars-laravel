@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios';
-import HttpReq from 'helpers/axios'
-import { toast } from 'react-toastify'
-import { useSWRConfig } from 'swr'
-import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import HttpReq from "helpers/axios";
+import { toast } from "react-toastify";
+import { useSWRConfig } from "swr";
+import { useRouter } from "next/router";
 
 const http = new HttpReq();
 
@@ -13,46 +13,58 @@ export default function useAPIContext() {
   // const { pathname } = useRouter();
 
   useEffect(() => {
-
     if (info?.url) {
-      const fetchData = async ({ method, url, payload, options = null, action = null, mutation = null }) => {
-        const toast_id = toast.loading("Processing request, please wait...")
+      const fetchData = async ({
+        method,
+        url,
+        payload,
+        options = null,
+        action = null,
+        mutation = null,
+      }) => {
+        const toast_id = toast.loading("Processing request, please wait...");
 
         try {
-          await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/sanctum/csrf-cookie`);
-          const { message } = await http[method](`${process.env.NEXT_PUBLIC_BACKEND_URL}/mouvers${url}`, payload, options);
+          const data = await http[method](
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
+            payload,
+            options
+          );
 
-          mutate(mutation) 
-          
-          if (toast_id) toast.update(toast_id, {
-            render: message ?? 'Action successful',
-            type: "success",
-            isLoading: false,
-            autoClose: true
-          });
-          
-          setInfo(null);
-          if (action) action();
-          // if (url === 'login') window.location.href = '/dashboard';
-        }
-        catch ({ message }) {
+// console.log('API request error', data)
+          if (data?.error || data?.status === 'error') throw new Error(data.message)
+          else {
+            mutate(mutation)
+
+            if (toast_id)
+              toast.update(toast_id, {
+                render: data?.message ?? "Action successful",
+                type: "success",
+                isLoading: false,
+                autoClose: true,
+              });
+
+            setInfo(null);
+            if (action) action();
+          }
+        } catch ({ message }) {
+console.log('Catch error handler', message)
+
           toast.update(toast_id, {
             render: message,
             type: "error",
             isLoading: false,
-            autoClose: true
+            autoClose: true,
           });
         }
-      }
+      };
 
-      fetchData(info)
+      fetchData(info);
     }
-
   }, [info, mutate]);
 
-
   // const makeRequest = (data) => alert('Make request fired')
-  const makeRequest = (data) => setInfo(data)
+  const makeRequest = (data) => setInfo(data);
 
-  return {makeRequest}
+  return { makeRequest };
 }

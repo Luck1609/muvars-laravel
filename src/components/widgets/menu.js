@@ -24,7 +24,7 @@ export default function Menu() {
         pathname !== '/settings' ? (
           <CustomMenu
             Component={({click}) => <>
-                <Btn items-center
+                <Btn
                   content={<Icons.UilEllipsisH />}
                   className="shadow-none text-slate-400 bg-slate-200 hover:shadow-none hover:bg-slate-300"
                   click={click}

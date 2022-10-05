@@ -210,13 +210,13 @@ const AssignUser = ({state, toggler}) => {
 
   const user_email = watch('search_user');
 
-  useEffect(() => {
-    first
+  // useEffect(() => {
+  //   first
   
-    // return () => {
-    //   second
-    // }
-  }, [user_email])
+  //   // return () => {
+  //   //   second
+  //   // }
+  // }, [user_email])
   
 
   return (
@@ -238,7 +238,7 @@ const AssignUser = ({state, toggler}) => {
 
 
               <div className='h-full'>
-                <input type="text" name="search_user" {...register({name: 'search_user'})} />
+                <input type="text" name="search_user" {...register('search_user')} />
               </div>
 
 

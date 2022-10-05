@@ -41,8 +41,11 @@ export default class Helper {
       return false;
     }
   }
+
+  filterValues = ({ options, param }) => {
+    let filtered = [];
+
+    options.map(option => filtered = [...filtered, { label: param.label === 'string' ? option[param.label] : param.label(option), value: option[param.value] }])
+    return filtered
+  }
 }
-
-
-
-export const api = window.api;

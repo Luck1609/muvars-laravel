@@ -7,14 +7,16 @@ import { show_modal } from "hooks/redux/modal_reducer";
 import { useDispatch } from "react-redux";
 import RouteForm from "./route_form";
 import { route_validation } from "components/validations";
+import useSWR from "swr";
 
 export default function RoutesComponent() {
+  const { data: buses } = useSWR('/route');
   const dispatch = useDispatch();
   const { modal } = useSelector((state) => state.ModalReducer);
 
   console.log("selector state", modal);
 
-  const add_route = ({
+  const route_handler = ({
     id,
     region,
     town,
@@ -23,15 +25,14 @@ export default function RoutesComponent() {
       show_modal({
         method: id ? "patch" : "post",
         url: id ? `/route/${id}` : "/route",
-        content: RouteForm,
+        content: 'route',
         title: id ? "Edit route information" : "Create new route",
-        validations: route_validation,
-        mutation: "route",
+        mutation: "/route",
         values: {
-          label: region ?? "",
-          capacity: town ?? "",
+          region: region ?? "",
+          town: town ?? "",
         },
-        // width: 'w-[600px]'
+        width: 'w-[400px]'
       })
     );
   };
@@ -41,7 +42,6 @@ export default function RoutesComponent() {
       <MTableComponent
         title=""
         options={{ draggable: false }}
-        selectable
         columns={[
           {
             field: "region",
@@ -52,7 +52,13 @@ export default function RoutesComponent() {
             title: "Town",
           }
         ]}
-        data={schedules}
+        data={buses?.data ?? []}
+        actions={[
+          {
+            icon: '',
+            tooltip: ''
+          }
+        ]}
         components={{
           Toolbar: (props) => (
             <>
@@ -67,52 +73,29 @@ export default function RoutesComponent() {
                     </span>
                   }
                   className="bg-primary h-10"
-                  click={add_route}
+                  click={route_handler}
                 />
               </div>
             </>
           ),
-          DetailsPanel: (data) => (
-            <>{console.log("Details panel data", data)}</>
+
+          Action: ({data}) => (
+            <>
+              <Btn 
+                content={<Icon.UilPen />}
+                className="bg-transprent hover:bg-blue-200 text-sky-500 btn p-2.5 mr-3"
+                click={() => route_handler(data)}
+              />
+              
+              <Btn 
+                content={<Icon.UilTrash />}
+                className="bg-transprent hover:bg-rose-200 text-red-500 btn p-2.5 mr-3"
+                click={() => route_handler(data)}
+              />
+            </>
           ),
         }}
       />
     </div>
   );
 }
-
-const schedules = [
-  {
-    driver: "Nathaniel Obeng",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Sunyani",
-    status: 1,
-    seats: 60,
-    bus_num: "GA-1609-S",
-    departure_time: "8:30am",
-  },
-  {
-    driver: "Larry Benson",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Tamale",
-    status: 1,
-    seats: 60,
-    bus_num: "GA-2709-S",
-    departure_time: "6:00am",
-  },
-  {
-    driver: "Jayson McLaurren",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Takoradi",
-    status: 1,
-    seats: 40,
-    bus_num: "GA-0110-O",
-    departure_time: "9:30pm",
-  },
-];

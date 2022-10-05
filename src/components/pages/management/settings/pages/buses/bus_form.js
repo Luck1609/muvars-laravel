@@ -16,7 +16,7 @@ export default function BusForm() {
 
       <Input 
         name="plate_no"
-        label="Bus capacity"
+        label="Plate no."
       />
 
       <Input 
@@ -27,7 +27,7 @@ export default function BusForm() {
       <Input 
         name="seat_arrangement_style"
         label="Seat type"
-        options={[]}
+        options={[1, 2, 3]}
       />
     </div>
   )

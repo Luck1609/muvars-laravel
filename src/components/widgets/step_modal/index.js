@@ -33,19 +33,9 @@ export default function StepModal() {
   }, [state, setStep]);
 
   const submit = async (form_values) => {
-    const form_data = new FormData();
-
-    const { cover_photo, flyer, ...payload } = form_values;
-
-    if (watch("cover_photo")) form_data.append("cover_photo", cover_photo[0]);
-    if (watch("flyer")) form_data.append("flyer", flyer[0]);
-
-    Object.entries(payload).forEach(([key, value]) => {
-      form_data.append(key, value);
-    });
+    const form_data = modals[data?.content].submit(form_values);
 
     try {
-  // console.log("Inspecting step form data changes", form_values);
       makeRequest({
         method: data?.method,
         url: data?.url,
@@ -57,6 +47,31 @@ export default function StepModal() {
     }
     
   };
+
+  // const submit = async (form_values) => {
+  //   const form_data = new FormData();
+
+  //   const { cover_photo, flyer, ...payload } = form_values;
+
+  //   if (watch("cover_photo")) form_data.append("cover_photo", cover_photo[0]);
+  //   if (watch("flyer")) form_data.append("flyer", flyer[0]);
+
+  //   Object.entries(payload).forEach(([key, value]) => {
+  //     form_data.append(key, value);
+  //   });
+
+  //   try {
+  //     makeRequest({
+  //       method: data?.method,
+  //       url: data?.url,
+  //       payload: form_data,
+  //       mutation: data?.mutation,
+  //     });
+  //   } catch({message}) {
+      
+  //   }
+    
+  // };
 
 
   if (!state) return <></>;

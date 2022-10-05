@@ -1,27 +1,23 @@
 import { MTableToolbar } from "@material-table/core";
 import useSWR from "swr";
-// import { useSelector } from "react-redux";
 import * as Icon from "@iconscout/react-unicons";
 import { Btn } from "components/widgets/btn";
 import { show_modal, show_notice, step_modal } from "hooks/redux/modal_reducer";
 import { useDispatch } from "react-redux";
 import MTableComponent from "components/widgets/mtable";
-// import dayjs from "dayjs";
-// import useAPIContext from "hooks/api_context";
-// import EventForm from "./event_form";
-import {
-  event_verifier_validation,
-} from "components/validations";
+import { event_verifier_validation } from "components/validations";
 import { useState } from "react";
 import EventUsersTable from "./event_users_table";
 import VerifiersTable from "./verifiers_table";
 import VerifierForm from "./verifier_form";
+import CustomMenu from "components/widgets/menu_item";
+import PickupPointsTable from "./event_pickup";
 
 export default function EventsComponent() {
   const { data: event } = useSWR("/event");
   const dispatch = useDispatch();
-  const [toggler, setToggler] = useState(false);
-
+  const [toggler, setToggler] = useState("Users");
+  const [sort, setSort] = useState(null);
 
   const event_handler = ({
     name,
@@ -36,7 +32,7 @@ export default function EventsComponent() {
       step_modal({
         method: slug ? "patch" : "post",
         url: slug ? `/event/${slug}` : "/event",
-        content: 'event',
+        content: "event",
         title: slug ? "Edit event info" : "Create New Event",
         mutation: "/event",
         values: {
@@ -46,19 +42,42 @@ export default function EventsComponent() {
           time: time ?? "",
           flyer: flyer ?? "",
           cover_photo: cover_photo ?? "",
-        }
+        },
       })
     );
   };
 
-  const add_verifier = ({ id, name, email, phone, event_id }) => {
+  const pickup_handler = ({
+    location,
+    time,
+    event_id,
+    id,
+    departure
+  }) => {
+    dispatch(
+      show_modal({
+        method: id ? "patch" : "post",
+        url: id ? `/pickup/${id}` : "/pickup",
+        content: "pickup",
+        title: id ? "Edit pickup points" : "Create New pickup point",
+        mutation: "/event",
+        values: {
+          event_id: event_id ?? "",
+          location: location ?? "",
+          time: time ?? "",
+          departure: departure ?? "",
+        },
+      })
+    );
+  };
+
+  const verifier_handler = ({ id, name, email, phone, event_id }) => {
     dispatch(
       show_modal({
         method: id ? "patch" : "post",
         url: id ? `/verifier/${id}` : "/verifier",
-        content: VerifierForm,
+        content: 'verifier',
         title: id ? "Edit verifier information" : "Add new verifier",
-        validations: event_verifier_validation,
         mutation: "/event",
         values: {
           name: name ?? "",
@@ -69,8 +88,6 @@ export default function EventsComponent() {
       })
     );
   };
-
-  const toggle_view = () => setToggler(!toggler);
 
   return (
     <div className="table-paper">
@@ -89,13 +106,25 @@ export default function EventsComponent() {
             field: "slug",
             title: "Unique url",
           },
+          {
+            title: "Users",
+            render: ({ users }) => <>{users.length}</>,
+          },
+          {
+            title: "Verifiers",
+            render: ({ verifiers }) => <>{verifiers.length}</>,
+          },
+          {
+            title: "Pickup points",
+            render: ({ points }) => <>{points.length}</>,
+          },
         ]}
         data={event?.data ?? []}
         actions={[
           {
             icon: () => <Icon.UilPen className="text-sky-500" />,
-            tooltip: "Edit event"
-          }
+            tooltip: "Edit event",
+          },
         ]}
         components={{
           Toolbar: (props) => (
@@ -143,39 +172,145 @@ export default function EventsComponent() {
         detailPanel={[
           {
             tooltip: "",
-            render: ({ rowData: { id, users, verifiers } }) => {
+            render: ({ rowData: { id, users, verifiers, points } }) => {
               return (
                 <div className="w-full bg-blue-100 p-5">
                   <div className="flex items-center mb-5 border-b">
+                    
+                    <CustomMenu
+                      Component={({ click }) => (
+                        <Btn
+                          content={
+                            toggler === "Pickup" ? "Pickup points" : toggler
+                          }
+                          className="bg-sky-500 hover:bg-sky-600 mr-3 capitalize"
+                          click={click}
+                        />
+                      )}
+                      options={[
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Users");
+                                close();
+                              }}
+                            >
+                              Users
+                            </div>
+                          ),
+                        },
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Verifiers");
+                                close();
+                              }}
+                            >
+                              Verifiers
+                            </div>
+                          ),
+                        },
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Pickup");
+                                close();
+                              }}
+                            >
+                              Pickup points
+                            </div>
+                          ),
+                        },
+                      ]}
+                    />
                     <label className="text-lg font-semibold grow">
-                      {!toggler
+                      {toggler === "Verifiers"
                         ? "Manage event verifiers"
-                        : "Manage event users"}
+                        : null}
+                      {toggler === "Users" ? "Manage event user" : null}
+                      {toggler === "Pickup"
+                        ? "Manage event pickup points"
+                        : null}
                     </label>
 
-                    <Btn
-                      content={`Toggle ${!toggler ? "users" : "verifiers"}`}
-                      className={`${
-                        !toggler
-                          ? "bg-sky-500 hover:bg-sky-600"
-                          : "bg-teal-500 hover:bg-teal-600"
-                      } mr-3`}
-                      click={toggle_view}
+                    <CustomMenu
+                      Component={({ click }) => (
+                        <Btn
+                          content={
+                            toggler === "Pickup" ? "Pickup points" : toggler
+                          }
+                          className="bg-sky-500 hover:bg-sky-600 mr-3 capitalize"
+                          click={click}
+                        />
+                      )}
+                      options={[
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Users");
+                                close();
+                              }}
+                            >
+                              Users
+                            </div>
+                          ),
+                        },
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Verifiers");
+                                close();
+                              }}
+                            >
+                              Verifiers
+                            </div>
+                          ),
+                        },
+                        {
+                          name: ({ close }) => (
+                            <div
+                              className="p-1.5 px-3 cursor-pointer"
+                              onClick={() => {
+                                setToggler("Pickup");
+                                close();
+                              }}
+                            >
+                              Pickup points
+                            </div>
+                          ),
+                        },
+                      ]}
                     />
 
-                    {toggler ? null : (
+                    {toggler !== "Users" ? (
                       <Btn
-                        content="Add verifier"
+                        content={toggler === "Verifiers" ? "Add verifier" : "Add pickup point"}
                         className="bg-emerald-500 hover:bg-emerald-600"
-                        click={() => add_verifier({ event_id: id })}
+                        click={() => toggler === "Verifiers" ? verifier_handler({ event_id: id }) : pickup_handler({ event_id: id })}
                       />
-                    )}
+                    ) : null}
                   </div>
 
-                  {toggler ? (
+                  {toggler === "Users" && (
                     <EventUsersTable users={users} event_id={id} />
-                  ) : (
+                  )}
+
+                  {toggler === "Verifiers" && (
                     <VerifiersTable verifiers={verifiers} event_id={id} />
+                  )}
+
+                  {toggler === "Pickup" && (
+                    <PickupPointsTable points={points} event_id={id} />
                   )}
                 </div>
               );

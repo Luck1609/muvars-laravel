@@ -46,7 +46,7 @@ const Item = ({ close, notification }) => {
           model === 'StaffPasswordResetNotification' 
             ? (
               <div className="w-[50px] h-[50px] bg-rose-400 rounded-full flex">
-                <Icons.Unlock className="m-auto text-white" />
+                <Icons.UilLockOpenAlt className="m-auto text-white" />
               </div>
           ) : null
         }
@@ -54,7 +54,7 @@ const Item = ({ close, notification }) => {
           model === 'NewMeetingNotification' 
             ? (
               <div className="w-[50px] h-[50px] bg-rose-400 rounded-full flex">
-                <Icons.Schedule className="m-auto text-white" />
+                <Icons.UilSchedule className="m-auto text-white" />
               </div>
           ) : null
         }

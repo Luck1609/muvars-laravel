@@ -24,7 +24,7 @@ module.exports = (phase, {defaultConfig}) => {
     /* config options for all phases except development here */
     reactStrictMode: true,
     images: {
-      domains: ['homesteller.local'],
+      domains: [process.env.NEXT_PUBLIC_BACKEND_URL],
     }
   }
 }

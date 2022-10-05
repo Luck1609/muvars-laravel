@@ -5,6 +5,7 @@
       "components/*": ["src/components/*"],
       "helpers/*": ["src/helpers/*"],
       "hooks/*": ["src/hooks/*"],
+      "backend/*": ["src/backend/*"],
       "assets/*": ["src/assets/*"]
     }
   }

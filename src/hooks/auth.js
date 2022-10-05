@@ -22,12 +22,12 @@ export const useAuth = ({ middleware }) => {
 
   // Check if user exist in database
   // const { data: user, error, mutate } = useSWR('');
-  const { data: user, error, mutate } = useSWR('/user-data');
+  const { data: user, error, mutate } = useSWR();
 
   const register = async ({ payload }) => {
     makeRequest({
       method: 'post',
-      url: 'register',
+      url: '/register',
       payload
     });
 
@@ -38,7 +38,7 @@ export const useAuth = ({ middleware }) => {
 
     makeRequest({
       method: 'post',
-      url: 'login',
+      url: '/login',
       payload,
       action: () => window.location.href = '/dashboard'
     });
@@ -47,7 +47,7 @@ export const useAuth = ({ middleware }) => {
   const forgotPassword = async ({ payload }) => {
     makeRequest({
       method: 'post',
-      url: 'forgot-password',
+      url: '/forgot-password',
       payload
     });
   }
@@ -56,7 +56,7 @@ export const useAuth = ({ middleware }) => {
 
     makeRequest({
       method: 'post',
-      url: 'reset-password',
+      url: '/reset-password',
       // payload: {...payload, token: router.query.token}
     });
   }
@@ -72,8 +72,8 @@ export const useAuth = ({ middleware }) => {
       if (!error) {
         makeRequest({
           method: 'post',
-          url: 'logout', 
-          action: () => window.location.href = href ?? '/login'
+          url: '/logout', 
+          action: () => window.location.href = href ?? '/'
         });
       }
     },
@@ -89,6 +89,10 @@ export const useAuth = ({ middleware }) => {
       toast.error('Please login to continue')
       !error ? logout() : router.push('/login')
     };
+    if (middleware === 'manager' && !user?.data.agency_id && error) {
+      toast.error('Access denied, you are not authorized to visit this section')
+      router.push('/');
+    }
     if (middleware === 'manager' && !user?.data.agency_id && error) {
       toast.error('Access denied, you are not authorized to visit this section')
       router.push('/');

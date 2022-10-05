@@ -6,6 +6,8 @@ import ProtectedAdminLayout from "components/layouts/admin/protect_admin_route";
 import AgencyComponent from "components/pages/admin/agency";
 import AdminUsersComponent from "components/pages/admin/users";
 import EventsComponent from "components/pages/admin/events";
+import HttpReq from "helpers/axios";
+
 
 export default function ProtectedAdminArea() {
   const { asPath } = useRouter()
@@ -13,34 +15,30 @@ export default function ProtectedAdminArea() {
   return <ProtectedAdminLayout>{switcher(asPath)}</ProtectedAdminLayout>;
 }
 
-// export async function getServerSideProps({resolvedUrl: url, ...context}) {
-//   const session = await getSession(context);
+const http = new HttpReq();
 
-//   // console.log('Protectedt route session ', session, context, url)
+export async function getServerSideProps({req, res, query}) {
+  const {data: user} = await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/user-data`, {
+    headers: {
+      cookie: req.headers.cookie
+    }
+  })
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/admin",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   else if (url === '/admin' && session) {
-//     return {
-//       redirect: {
-//         destination: "/admin/dashboard",
-//         permanent: false,
-//       },
-//     };
-//   }
+  console.log('User data', user)
+  if (!user.isAdmin) {
+    return {
+      redirect: {
+        destination: user?.agency_id ? `/management/dashboard?unauthorized` : `/?unauthorized`,
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {
-//       session,
-//     },
-//   };
-// }
+  return {
+    props: {
+    },
+  };
+}
 
 const switcher = (path) => {
     if (path.startsWith("/admin/dashboard"))

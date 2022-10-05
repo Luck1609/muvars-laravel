@@ -1,3 +1,4 @@
+import { unstable_getServerSession } from "next-auth";
 import { useRouter } from "next/router";
 import DashboardComponent from "components/pages/management/dashboard";
 import UsersComponent from "components/pages/management/users";
@@ -8,25 +9,13 @@ import RevenueComponent from "components/pages/management/revenue";
 import ExpensesComponent from "components/pages/management/expenses";
 import SettingsComponent from "components/pages/management/settings";
 import ProtectedAdminLayout from "components/layouts/admin/protect_admin_route";
-// import HttpReq from "helpers/axios";
-// import GuestLayout from "components/layouts/admin/guest_route";
-import LoginComponent from "components/pages/management/auth";
-import { useAuth } from "hooks/auth";
-
-// const http = new HttpReq();
+import HttpReq from "helpers/axios";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 export default function ProtectedManagement() {
-  const { user, error } = useAuth({ middleware: "manager" });
   const { asPath } = useRouter();
 
-  if (!user && !error)
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <span>Loading...</span>
-      </div>
-    );
-
-  else return <ProtectedAdminLayout>{switcher(asPath)}</ProtectedAdminLayout>;
+  return <ProtectedAdminLayout>{switcher(asPath)}</ProtectedAdminLayout>;
 }
 
 
@@ -49,3 +38,39 @@ const switcher = (path) => {
   if (path.startsWith("/management")) return <DashboardComponent />;
   else return <>Yo fish</>;
 };
+
+
+const http = new HttpReq();
+
+export async function getServerSideProps({req, res, query}) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  const {data: user} = await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/user-data`, {
+    headers: {
+      cookie: req.headers.cookie
+    }
+  })
+
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login?unauthenticated&redirect=management/dashboard',
+        permanent: false
+      }
+    }
+  }
+  else if (!user.isAdmin && !user.agency_id) {
+    return {
+      redirect: {
+        destination: `/?unauthorized`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+    },
+  };
+}

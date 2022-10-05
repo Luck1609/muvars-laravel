@@ -4,18 +4,18 @@ import * as Icon from "@iconscout/react-unicons";
 import MTableComponent from "components/widgets/mtable";
 import ApiMenu from "components/widgets/api_menu";
 import { Btn } from "components/widgets/btn";
-import { show_modal } from "hooks/redux/modal_reducer";
+import { show_modal, step_modal } from "hooks/redux/modal_reducer";
 import { useDispatch } from "react-redux";
 import { schedule_validation } from "components/validations";
 import BusForm from "./bus_form";
+import useSWR from "swr";
 
 export default function BusComponent() {
+  const { data: bus } = useSWR();
   const dispatch = useDispatch();
   const { modal } = useSelector((state) => state.ModalReducer);
 
-  console.log("selector state", modal);
-
-  const add_bus = ({
+  const bus_handler = ({
     id,
     label,
     capacity,
@@ -24,13 +24,12 @@ export default function BusComponent() {
     seat_arrangement_style,
   }) => {
     dispatch(
-      show_modal({
+      step_modal({
         method: id ? "patch" : "post",
         url: id ? `/bus/${id}` : "/bus",
-        content: BusForm,
+        content: 'bus',
         title: id ? "Edit bus information" : "Add new bus",
-        validations: "",
-        mutation: "bus",
+        mutation: "/bus",
         values: {
           label: label ?? "",
           capacity: capacity ?? "",
@@ -48,7 +47,7 @@ export default function BusComponent() {
       <MTableComponent
         title=""
         options={{ draggable: false }}
-        selectable
+        // selectable
         columns={[
           {
             field: "label",
@@ -83,7 +82,7 @@ export default function BusComponent() {
           //   ),
           // },
         ]}
-        data={schedules}
+        data={bus?.data ?? []}
         actions={[
           {
             icon: ''
@@ -93,13 +92,6 @@ export default function BusComponent() {
           Toolbar: (props) => (
             <>
               <div className="w-full flex mb-3 items-center">
-                {/* <div className="grow">
-                  <ApiMenu
-                    options={["Pending", "Completed"]}
-                    baseUrl="Pending"
-                    apiUrl="tickets"
-                  />
-                </div> */}
                 <label className="text-lg grow font-semibold">Bus Management</label>
                 <MTableToolbar {...props} />
                 <Btn
@@ -109,13 +101,23 @@ export default function BusComponent() {
                     </span>
                   }
                   className="bg-primary h-10"
-                  click={add_bus}
+                  click={bus_handler}
                 />
               </div>
             </>
           ),
-          DetailsPanel: (data) => (
-            <>{console.log("Details panel data", data)}</>
+          Action: ({data}) => (
+            <>
+              <Btn
+                content={
+                  <span className="flex items-center justify-center">
+                    <Icon.UilPen size={18} className="mr-1" /> Add bus
+                  </span>
+                }
+                className="bg-transparent hover:bg-blue-200 text-sky-500 h-10"
+                click={() => bus_handler(data)}
+              />
+            </>
           ),
         }}
       />
@@ -123,38 +125,20 @@ export default function BusComponent() {
   );
 }
 
-const schedules = [
-  {
-    driver: "Nathaniel Obeng",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Sunyani",
-    status: 1,
-    seats: 60,
-    bus_num: "GA-1609-S",
-    departure_time: "8:30am",
-  },
-  {
-    driver: "Larry Benson",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Tamale",
-    status: 1,
-    seats: 60,
-    bus_num: "GA-2709-S",
-    departure_time: "6:00am",
-  },
-  {
-    driver: "Jayson McLaurren",
-    phone: "0503894555",
-    fare: 105,
-    origin: "Accra",
-    destination: "Takoradi",
-    status: 1,
-    seats: 40,
-    bus_num: "GA-0110-O",
-    departure_time: "9:30pm",
-  },
-];
+
+export const submit_bus_handler = (data) => {
+  const form_data = new FormData();
+
+  const { pictures, ...payload } = data;
+
+  pictures.forEach((value) => {
+    form_data.append('pictures[]', value);
+  })
+
+
+  Object.entries(payload).forEach(([key, value]) => {
+    form_data.append(key, value);
+  });
+  
+  return form_data;
+}

@@ -1,8 +1,15 @@
 import EventForm1 from "components/pages/admin/events/event_form";
 import EventForm2 from "components/pages/admin/events/event_form_2";
 import EventPreview from "components/pages/admin/events/event_preview";
+import PickupForm from "components/pages/admin/events/pickup_form";
+import VerifierForm from "components/pages/admin/events/verifier_form";
 import Login from "components/pages/auth/login";
 import Register from "components/pages/auth/register";
+import { submit_bus_handler } from "components/pages/management/settings/pages/buses";
+import BusForm2 from "components/pages/management/settings/pages/buses/bus-form2";
+import BusForm from "components/pages/management/settings/pages/buses/bus_form";
+import PreviewBus from "components/pages/management/settings/pages/buses/preview-bus";
+import RouteForm from "components/pages/management/settings/pages/routes/route_form";
 import ScheduleForm from "components/pages/management/settings/pages/schedule/form";
 import TicketForm1 from "components/pages/management/tickets/form/ticket_form_1";
 import TicketForm2 from "components/pages/management/tickets/form/ticket_form_2";
@@ -43,7 +50,39 @@ export const modals = {
     forms: Register,
     validation: V.registration_validation
   },
+  pickup: {
+    forms: PickupForm,
+    validation: V.event_pickup_validation
+  },
+  verifier: {
+    forms: VerifierForm,
+    validation: V.event_verifier_validation
+  },
+  verifier: {
+    forms: VerifierForm,
+    validation: V.event_verifier_validation
+  },
+  route: {
+    forms: RouteForm,
+    validation: V.route_validation
+  },
+  schedule: {
+    forms: ScheduleForm,
+    validation: V.schedule_validation
+  },
+  bus: {
+    forms: [
+      BusForm,
+      BusForm2,
+      PreviewBus
+    ],
+    validation: [
+      V.bus_validation,
+      V.bus_validation_2,
+      ''
+    ],
+    submit: (data) => submit_bus_handler(data)
+  },
   ticket_user: TicketUserForm,
   add_user: AddUserForm,
-  schedule: ScheduleForm
 }

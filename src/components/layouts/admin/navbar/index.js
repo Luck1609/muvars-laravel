@@ -3,12 +3,12 @@ import UserTab from './user_tab'
 import * as Icons from '@iconscout/react-unicons'
 import { Badge } from '@mui/material'
 import CustomMenu from 'components/widgets/menu_item'
-import useMenu from 'hooks/useMenu'
+// import useMenu from 'hooks/useMenu'
 import { Btn } from 'components/widgets/btn'
 
 
 export default function NavBar({user, toggle}) {
-  const { items } = useMenu(user?.unread_notifications);
+  // const { items } = useMenu(user?.unread_notifications);
   
 
 
@@ -33,11 +33,12 @@ export default function NavBar({user, toggle}) {
           <ul className="relative ">
             <li className="inline-block text-slate-500 relative mr-3 cursor-pointer">
               <CustomMenu
-                Component={({click}) => <Badge color="error" onClick={click} badgeContent={user?.unread_notifications.length}>
+                Component={({click}) => <Badge color="error" onClick={click}>
+                {/* Component={({click}) => <Badge color="error" onClick={click} badgeContent={user?.unread_notifications.length}> */}
                     <Icons.UilBell size={30} className="text-slate-500" />
                   </Badge>
                 }
-                options={items ?? []}
+                options={[]}
               />
             </li>
           </ul>

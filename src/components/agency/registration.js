@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 
 // import * as UIcons from '@iconscout/react-unicons'
 import { Btn, FormBtn } from "components/widgets/btn";
-import { useAuth } from "hooks/auth";
 import { useEffect } from "react";
 import { agency_validation } from "components/validations";
 import useAPIContext from "hooks/api_context";
@@ -15,7 +14,6 @@ import useAPIContext from "hooks/api_context";
 export default function AgencyRegistrationComponent({ children }) {
   const { makeRequest } = useAPIContext();
   const { push } = useRouter();
-  useAuth({ middleware: "auth" });
 
   const methods = useForm({
     mode: "all",
@@ -41,7 +39,7 @@ export default function AgencyRegistrationComponent({ children }) {
     console.log("Agency payload", payload);
     makeRequest({
       method: "post",
-      url: "/agency",
+      url: "/agency/create-agency",
       payload,
       action: () => push("/management/dashboard"),
     });

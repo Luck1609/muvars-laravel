@@ -16,23 +16,22 @@ export default function ScheduleComponent() {
   console.log('selector state', modal)
 
   
-  const add_schedule = () => {
+  const schedule_handler = ({id, driver, bus, fare, origin, destination, departure_time}) => {
     dispatch(show_modal({
-      method: 'post',
-      url: '/schedule',
-      content: ScheduleForm,
-      title: 'Create schedule',
+      method: id ? 'patch' : 'post',
+      url: id ? `/schedule/${id}` : '/schedule',
+      content: 'schedule',
+      title: id ? 'Edit schedule' : 'Create schedule',
       validations: schedule_validation,
-      mutation: 'schedule',
+      mutation: '/schedule',
       values: {
-        driver: '',
-        bus: '',
-        phone: '',
-        fare: '',
-        origin: '',
-        destination: '',
+        driver: driver ?? '',
+        bus: bus ?? '',
+        fare: fare ?? '',
+        origin: origin ?? '',
+        destination: destination ?? '',
         status: 1,
-        departure_time: '8:30am',
+        departure_time: departure_time ?? '',
       },
       // width: 'w-[600px]'
     }))
@@ -100,7 +99,7 @@ export default function ScheduleComponent() {
                 <Btn 
                   content={<span className="flex items-center justify-center"><Icon.UilPlus size={18} className="mr-1" /> Add schedule</span>}
                   className="bg-primary h-10"
-                  click={add_schedule}
+                  click={schedule_handler}
                 />
               </div> 
             </>

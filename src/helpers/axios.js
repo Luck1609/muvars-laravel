@@ -10,8 +10,7 @@ export default class HttpReq {
     this.http.defaults.withCredentials = true;
     this.http.interceptors.request.use(
       function (config) {
-        // if (config.url === '/login' || config.url === '/register' || config.url)
-        // console.log('Axios configuration information', config.url)
+        // console.log('Axios configuration information', config)
         return config
       },
       function (error) {
@@ -24,14 +23,17 @@ export default class HttpReq {
     this.http.interceptors.response.use(
       function (response) {
         let { data, message } = response.data;
-        // console.log('SErver response from axios', response)
+        // console.log('SErver response from axios', response.data)
         
         return {data, message};
       },
       function (error) {
         let { message } = error.response.data;
-// console.log('Axios error object', error.response)
-        throw new Error(message ?? 'Unknown error occured')
+
+// console.log('Axios error object', error.response.data.message)
+        return {message, error: true}
+// throw message
+        // throw new Error(message ?? 'Unknown error occured')
       }
     );
   }
@@ -41,7 +43,7 @@ export default class HttpReq {
   // patch = async (url, payload, options = null) => console.log('options provided', options);
   patch = async (url, payload, options = null) => await this.http.patch(url, payload, options);
 
-  get = async (url) => await this.http.get(url);
+  get = async (url, options = null) => await this.http.get(url, options);
 
   delete = async (url) => await this.http.delete(url);
 }

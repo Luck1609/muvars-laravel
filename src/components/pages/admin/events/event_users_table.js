@@ -8,7 +8,7 @@ export default function EventUsersTable({users}) {
       {
         users.length <= 0 ? (
           <div className="w-full flex justify-center items-center">
-            <p className="">No users patronage</p>
+            <p className="">No users available</p>
           </div>
         ) : (
           <table className="table-auto w-full">

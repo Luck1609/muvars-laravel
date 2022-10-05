@@ -16,7 +16,7 @@ export default function FormModal() {
 
   const method = useForm({
     mode: 'all',
-    resolver: data?.validation ? yupResolver(data?.validation) : ''
+    resolver: state ? yupResolver(modals[data?.content].validation) : ''
   })
 
   const { handleSubmit, reset, watch, formState: { isDirty, isValid,  } } = method
@@ -40,10 +40,10 @@ export default function FormModal() {
     }
   }
 
-  const Component = data?.content
 
   if (!state) return <></>
   else {
+    const Component = modals[data?.content].forms
     return (
       <FormProvider {...method}>
         <div className={`fixed w-screen h-screen bg-black bg-opacity-50 flex top-0 left-0 z-50 ${state ? 'flex' : 'hidden'}`}>
