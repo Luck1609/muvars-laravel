@@ -1,51 +1,26 @@
-import Agency from "backend/models/AgencyModel";
-import Utils from "backend/utils";
+import { CREATED, UPDATED } from "backend/db-models/app-messages";
+import { Agency } from "backend/db-models/db";
+import dayjs from "dayjs";
 
-export default class AgencyController extends Utils {
-  async index() {
-    try {
-      const agencies = await Agency.findAll();
-      return this.success({ data: agencies });
-    } catch ({ message }) {
-      throw message;
-    }
-  }
 
-  async store() {
-    try {
-      this.payload.starting_hours = `2022-09-16T${this.payload.starting_hours}`;
-      this.payload.closing_time = `2022-09-16T${this.payload.closing_time}`;
+export const getAllAgencies = async (req, res) => {
+  const agencies = await Agency.findAll();
+  res.status(200).json({agencies});
+}
 
-      await Agency.create(this.payload);
-      return this.success({ message: `Agency ${this.CREATED}` });
-    } catch (error) {
-      throw message;
-    }
-  }
+export const createAgency = async (req, res) => {
+  const starting_hour = new Date(dayjs(`2022-09-16 ${req.body.starting_hour}`))
+  const closing_time = new Date(dayjs(`2022-09-16 ${req.body.closing_time}`))
+  const agency = await Agency.create({...req.body, starting_hour, closing_time});
 
-  async show() {
-    try {
-      const agency = Agency.findOne();
-    } catch ({ message }) {
-      throw message;
-    }
-  }
+  agency.setUsers(req.user);
+  res.status(200).json({message: `Agency ${CREATED}`})
+}
 
-  async update() {
-    console.log('selected agency', this.id)
-    try {
-      const agency = await Agency.findOne({where: {id: this.id}});
-      if (!agency) throw `Agency ${this.NOT_FOUND}`;
+export const updateAgency = async (req, res) => {
+  const starting_hour = new Date(dayjs(`2022-09-16 ${req.body.starting_hour}`))
+  const closing_time = new Date(dayjs(`2022-09-16 ${req.body.closing_time}`))
+  // const agency = await Agency.create({...req.body, starting_hour, closing_time});
 
-      await agency.update(this.payload);
-      
-      return this.success({message: `Agency information ${this.UPDATED}`})
-    } catch({message}) {
-      console.log('Update error', message)
-      throw new Error(`Agency ${this.UPDATE_FAILED} ${message}`)
-    }
-    
-  }
-
-  async delete() {}
+  res.status(200).json({message: `Agency ${UPDATED}`})
 }

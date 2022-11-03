@@ -1,3 +1,4 @@
+import { event_form_handler } from "components/pages/admin/events";
 import EventForm1 from "components/pages/admin/events/event_form";
 import EventForm2 from "components/pages/admin/events/event_form_2";
 import EventPreview from "components/pages/admin/events/event_preview";
@@ -11,6 +12,7 @@ import BusForm from "components/pages/management/settings/pages/buses/bus_form";
 import PreviewBus from "components/pages/management/settings/pages/buses/preview-bus";
 import RouteForm from "components/pages/management/settings/pages/routes/route_form";
 import ScheduleForm from "components/pages/management/settings/pages/schedule/form";
+import TerminalForm from "components/pages/management/settings/pages/terminals/terminal_form";
 import TicketForm1 from "components/pages/management/tickets/form/ticket_form_1";
 import TicketForm2 from "components/pages/management/tickets/form/ticket_form_2";
 import PreviewTicketForm from "components/pages/management/tickets/form/ticket_form_preview";
@@ -40,7 +42,8 @@ export const modals = {
     //   V.event1_validation,
     //   V.event2_validation,
     //   ''
-    // ]
+    // ], 
+    submit : event_form_handler
   },
   login: {
     forms: Login,
@@ -66,6 +69,10 @@ export const modals = {
     forms: RouteForm,
     validation: V.route_validation
   },
+  terminal: {
+    forms: TerminalForm,
+    validation: V.terminal_validation
+  },
   schedule: {
     forms: ScheduleForm,
     validation: V.schedule_validation
@@ -81,7 +88,7 @@ export const modals = {
       V.bus_validation_2,
       ''
     ],
-    submit: (data) => submit_bus_handler(data)
+    submit: submit_bus_handler
   },
   ticket_user: TicketUserForm,
   add_user: AddUserForm,

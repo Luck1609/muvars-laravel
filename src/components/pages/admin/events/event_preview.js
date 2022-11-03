@@ -30,12 +30,12 @@ export default function EventPreview() {
         <span className="block">{ watch('price') }</span>
       </div>
 
-      <div className="w-full p-3 bg-slate-100">
+      {/* <div className="w-full p-3 bg-slate-100">
         <label className="text-sm">Cover photo</label>
         <div className="w-44 h-20 relative">
           {cover && <Image src={URL.createObjectURL(cover[0])} alt="cover photo" layout="fill" className="rounded inline-block mr-2" />}
         </div>
-      </div>
+      </div> */}
 
       <div className="w-full p-3 bg-slate-100">
         <label className="text-sm">Event flyer</label>

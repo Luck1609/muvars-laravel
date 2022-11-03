@@ -1,48 +1,50 @@
 import { MTableToolbar } from "@material-table/core";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import * as Icon from "@iconscout/react-unicons";
 import MTableComponent from "components/widgets/mtable";
-import ApiMenu from "components/widgets/api_menu";
+// import ApiMenu from "components/widgets/api_menu";
 import { Btn } from "components/widgets/btn";
+import useSWR from "swr";
 import { show_modal } from "hooks/redux/modal_reducer";
 import { useDispatch } from "react-redux";
-import { schedule_validation } from "components/validations";
-import TerminalForm from "./terminal_form";
+// import { schedule_validation } from "components/validations";
+// import TerminalForm from "./terminal_form";
 
 export default function TerminalComponent() {
+  const { data } = useSWR('/management/terminals')
   const dispatch = useDispatch();
-  const { modal } = useSelector((state) => state.ModalReducer);
+  // const { modal } = useSelector((state) => state.ModalReducer);
 
-  console.log("selector state", modal);
+  // console.log("selector state", modal);
 
   const add_terminal = ({
     id,
     name,
     phone,
-    alt_phones,
-    location_region,
-    location_town,
-    location_lat,
-    location_lng,
-    manager_id,
+    // altPhone,
+    region,
+    town,
+    // lat,
+    // lng,
+    // manager_id,
   }) => {
     dispatch(
       show_modal({
         method: id ? "patch" : "post",
-        url: id ? `/terminal/${id}` : "/terminal",
-        content: TerminalForm,
+        url: id ? `/management/terminals/${id}` : "/management/terminals",
+        content: 'terminal',
         title: id ? "Edit terminal information" : "Create new terminal",
         validations: "",
-        mutation: "terminal",
+        mutation: "/management/terminals",
         values: {
           name: name ?? "",
           phone: phone ?? "",
-          alt_phones: alt_phones ?? "",
-          location_region: location_region ?? "",
-          location_town: location_town ?? "",
-          location_lat: location_lat ?? "",
-          location_lng: location_lng ?? "",
-          manager_id: manager_id ?? "",
+          // altPhone: altPhone ?? "",
+          region: region ?? "",
+          town: town ?? "",
+          // lat: lat ?? "",
+          // lng: lng ?? "",
+          // managerId: manager_id ?? "",
         },
         // width: 'w-[600px]'
       })
@@ -102,7 +104,7 @@ export default function TerminalComponent() {
             ),
           },
         ]}
-        data={schedules}
+        data={data?.terminal ?? []}
         components={{
           Toolbar: (props) => (
             <>

@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux'
-import { signOut, useSession } from 'next-auth/react'
+import useSWR from 'swr'
+// import { signOut, useSession } from 'next-auth/react'
 import { Btn } from 'components/widgets/btn'
 import MenuItem from '@mui/material/MenuItem'
 import Avatar from '@mui/material/Avatar'
-import avatar from 'assets/img/me.png'
+// import avatar from 'assets/img/me.png'
 import { useRouter } from 'next/router'
 import * as Icons from '@iconscout/react-unicons'
 import CustomMenu from 'components/widgets/menu_item'
@@ -12,7 +13,8 @@ import { show_auth_modal } from 'hooks/redux/modal_reducer'
 
 
 export default function UserTab() {
-  const { data: session } = useSession();
+  const {data: session} = useSWR('/user-data')
+  // const session = '';
   const { push } = useRouter()
   const dispatch = useDispatch()
 
@@ -74,7 +76,7 @@ export default function UserTab() {
                   <div className="flex items-center text-slate-500">
                     <Avatar src="" alt="NO" />
                     <div className="">
-                      <span className="ml-2 font-medium">{user.name}</span>
+                      <span className="ml-2 font-medium">{user.name ?? `${user.firstname} ${user.lastname}`}</span>
                     </div>
                   </div>
                 </>}
@@ -98,7 +100,7 @@ export default function UserTab() {
                   label={user.is_admin ? 'Admin Dashboard' : 'Dashboard' }
                   Icon={() => <Icons.UilApps/>}
                   click={() => {
-                      goto('/admin/dashboard');
+                      goto('/management/dashboard');
                       close()
                     }
                   }

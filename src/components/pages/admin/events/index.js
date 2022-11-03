@@ -13,8 +13,26 @@ import VerifierForm from "./verifier_form";
 import CustomMenu from "components/widgets/menu_item";
 import PickupPointsTable from "./event_pickup";
 
+
+
+  export const event_form_handler = (data) => {
+    const { flyer, ...payload } = data;
+    const form_data = new FormData;
+
+    console.log('Form data', flyer)
+// 
+    for (const [key, value] of Object.entries(payload)) {
+      form_data.append(key, value)
+    }
+    form_data.append('flyer', flyer[0]);
+
+    return form_data
+  }
+
+
+
 export default function EventsComponent() {
-  const { data: event } = useSWR("/event");
+  const { data } = useSWR("/management/events");
   const dispatch = useDispatch();
   const [toggler, setToggler] = useState("Users");
   const [sort, setSort] = useState(null);
@@ -25,23 +43,23 @@ export default function EventsComponent() {
     location,
     time,
     flyer,
-    cover_photo,
+    // cover_photo,
     slug,
   }) => {
     dispatch(
       step_modal({
         method: slug ? "patch" : "post",
-        url: slug ? `/event/${slug}` : "/event",
+        url: slug ? `/management/events/${slug}` : "/management/events",
         content: "event",
         title: slug ? "Edit event info" : "Create New Event",
-        mutation: "/event",
+        mutation: "/management/events",
         values: {
           name: name ?? "",
           price: price ?? "",
           location: location ?? "",
           time: time ?? "",
           flyer: flyer ?? "",
-          cover_photo: cover_photo ?? "",
+          // cover_photo: cover_photo ?? "",
         },
       })
     );
@@ -89,6 +107,9 @@ export default function EventsComponent() {
     );
   };
 
+
+  console.log('Events organised', data?.events)
+
   return (
     <div className="table-paper">
       <MTableComponent
@@ -119,7 +140,7 @@ export default function EventsComponent() {
             render: ({ points }) => <>{points.length}</>,
           },
         ]}
-        data={event?.data ?? []}
+        data={data?.events ?? []}
         actions={[
           {
             icon: () => <Icon.UilPen className="text-sky-500" />,

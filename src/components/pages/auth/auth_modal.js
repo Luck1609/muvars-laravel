@@ -35,28 +35,23 @@ export default function AuthModal() {
   }, [reset, data?.values]);
   
 
-  const handle_auth = (provider) => () => signIn(provider);
+  // const handle_auth = (provider) => () => signIn(provider);
 
   const submit = async (payload) =>  {
-    if (data.title === 'Login') {
-      try {
-        const result = await signIn('credentials', {email: payload.email, password: payload.password, redirect: false});
-        
-        if (result.error === 'CredentialsSignin') throw new Error('Invalid email/password provided')
-        close_form();
-        if (url[1] === 'unauthenticated') action();
-      } catch ({message}) {
-        toast.error(message)
-      }
-    }
-    else 
-      makeRequest({
+    try {
+      const result = await makeRequest({
+        url: data.url,
         method: 'post',
-        url: data?.url,
-        payload
-      })
+        payload,
+        mutation: '/user-data'
+      });
+      // close_form();
+    } catch ({message}) {
+      toast.error(message)
+    }
   }
 
+// alert(data.url)
   
   const close_form = () => {
     dispatch(show_auth_modal('close'))
@@ -96,7 +91,7 @@ export default function AuthModal() {
                     className="bg-green-500 hover:bg-green-600 h-10 w-full"
                   />
 
-                  <div className="w-full flex items-center justify-center relative my-4">
+                  {/* <div className="w-full flex items-center justify-center relative my-4">
                     <hr className="w-full border absolute" />
                     <span className="font-medium z-10 bg-white px-3">Or</span>
                   </div>
@@ -129,7 +124,7 @@ export default function AuthModal() {
                       className={`text-slate-500 bg-white border-slate-300 hover:bg-slate-500 hover:text-white hover:border-white w-full h-10 ${ data.title === 'Login' ? 'pl-14' : 'pl-32' }`}
                       click={handle_auth('google')}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>

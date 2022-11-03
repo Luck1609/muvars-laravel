@@ -1,4 +1,5 @@
 import HomepageComponent from "components/pages/landing";
+// import HttpReq from "helpers/axios";
 import { show_auth_modal } from "hooks/redux/modal_reducer";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -30,3 +31,17 @@ export default function Home() {
 
   return <HomepageComponent />;
 }
+
+// const http = new HttpReq();
+
+// export async function getServerSideProps() {
+//   const session = await http.get('/user-data')
+
+//   console.log('Server-side session', session)
+//   return {
+//     props: {
+//       // session
+      
+//     }
+//   }
+// }

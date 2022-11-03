@@ -10,11 +10,9 @@ import { route_validation } from "components/validations";
 import useSWR from "swr";
 
 export default function RoutesComponent() {
-  const { data: buses } = useSWR('/route');
+  const { data } = useSWR('/management/route');
   const dispatch = useDispatch();
-  const { modal } = useSelector((state) => state.ModalReducer);
-
-  console.log("selector state", modal);
+  // const { modal } = useSelector((state) => state.ModalReducer);
 
   const route_handler = ({
     id,
@@ -24,10 +22,10 @@ export default function RoutesComponent() {
     dispatch(
       show_modal({
         method: id ? "patch" : "post",
-        url: id ? `/route/${id}` : "/route",
+        url: id ? `/management/route/${id}` : "/management/route",
         content: 'route',
         title: id ? "Edit route information" : "Create new route",
-        mutation: "/route",
+        mutation: "/management/route",
         values: {
           region: region ?? "",
           town: town ?? "",
@@ -52,7 +50,7 @@ export default function RoutesComponent() {
             title: "Town",
           }
         ]}
-        data={buses?.data ?? []}
+        data={data?.routes ?? []}
         actions={[
           {
             icon: '',

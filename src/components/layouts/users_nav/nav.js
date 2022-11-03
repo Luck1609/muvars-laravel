@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import UserTab from "../admin/navbar/user_tab";
 
 export default function Nav() {
+
   const { push } = useRouter();
 
   const goto = (url) => push(url)

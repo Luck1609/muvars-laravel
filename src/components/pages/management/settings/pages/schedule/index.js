@@ -1,5 +1,6 @@
 import {MTableToolbar} from '@material-table/core'
 import { useSelector } from 'react-redux'
+import useSWR from "swr";
 import * as Icon from '@iconscout/react-unicons'
 import MTableComponent from "components/widgets/mtable";
 import ApiMenu from 'components/widgets/api_menu'
@@ -8,30 +9,37 @@ import { show_modal } from 'hooks/redux/modal_reducer'
 import { useDispatch } from 'react-redux'
 import { schedule_validation } from 'components/validations';
 import ScheduleForm from './form';
+import dayjs from 'dayjs';
+
+
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat)
 
 export default function ScheduleComponent() {
+  const { data } = useSWR('/management/schedules')
   const dispatch = useDispatch()
   const { modal  } = useSelector(state => state.ModalReducer)
 
-  console.log('selector state', modal)
+  // console.log('selector state', modal)
 
   
-  const schedule_handler = ({id, driver, bus, fare, origin, destination, departure_time}) => {
+  const schedule_handler = ({id, driver, bus, fare, origin, destination, departureTime, reportingTime, stops}) => {
     dispatch(show_modal({
       method: id ? 'patch' : 'post',
-      url: id ? `/schedule/${id}` : '/schedule',
+      url: id ? `/management/schedules/${id}` : '/management/schedules',
       content: 'schedule',
       title: id ? 'Edit schedule' : 'Create schedule',
-      validations: schedule_validation,
-      mutation: '/schedule',
+      mutation: '/management/schedules',
       values: {
-        driver: driver ?? '',
+        // driver: driver ?? '',
         bus: bus ?? '',
         fare: fare ?? '',
         origin: origin ?? '',
         destination: destination ?? '',
-        status: 1,
-        departure_time: departure_time ?? '',
+        // status: 1,
+        departureTime: departureTime ?? '',
+        reportingTime: reportingTime ?? '',
       },
       // width: 'w-[600px]'
     }))
@@ -39,24 +47,13 @@ export default function ScheduleComponent() {
 
   return (
     <div className="w-full mx-auto table-paper">
-
+      {/* { (dayjs().format('HH:mm')).isValid() } */}
+      { dayjs('08:55', 'HH:mm', true).isValid() ? 'Yes' : 'No' }
       <MTableComponent 
         title=""
         options={{ draggable: false }}
         selectable
         columns={[
-          {
-            field: 'driver',
-            title: 'Driver'
-          },
-          {
-            field: 'phone',
-            title: 'Phone'
-          },
-          {
-            field: 'seats',
-            title: 'No. of Seats'
-          },
           {
             field: 'fare',
             title: 'Fare (GHc)'
@@ -71,8 +68,13 @@ export default function ScheduleComponent() {
             render: ({ origin, destination }) => <span className="">{ origin } - { destination }</span>
           },
           {
-            field: 'departure_time',
-            title: 'Departure time'
+            title: 'Reporting time',
+            render: ({ reportingTime }) => <span className="">{ dayjs(reportingTime).format('HH:mma') }</span>
+          },
+          {
+            title: 'Departure time',
+            render: ({ departureTime }) => <span className="">{ dayjs(departureTime).format('HH:mma') }</span>
+
           },
           {
             field: 'status',
@@ -81,7 +83,7 @@ export default function ScheduleComponent() {
             render: ({ status }) => <span className={`p-1 text-sm rounded-md ${ status ? 'bg-green-200 text-green-600' : 'bg-red-200 text-red-600'}`}>{status ? 'Active' : 'Inactive'}</span>
           },
         ]}
-        data={schedules}
+        data={data?.schedules ?? []}
         
         components={{
           Toolbar: (props) => (
@@ -110,40 +112,3 @@ export default function ScheduleComponent() {
     </div>
   )
 }
-
-
-const schedules = [
-  {
-    driver: 'Nathaniel Obeng',
-    phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Sunyani',
-    status: 1,
-    seats: 60,
-    bus_num: 'GA-1609-S',
-    departure_time: '8:30am',
-  },
-  {
-    driver: 'Larry Benson',
-    phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Tamale',
-    status: 1,
-    seats: 60,
-    bus_num: 'GA-2709-S',
-    departure_time: '6:00am',
-  },
-  {
-    driver: 'Jayson McLaurren',
-    phone: '0503894555',
-    fare: 105,
-    origin: 'Accra',
-    destination: 'Takoradi',
-    status: 1,
-    seats: 40,
-    bus_num: 'GA-0110-O',
-    departure_time: '9:30pm',
-  },
-]

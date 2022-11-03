@@ -15,10 +15,12 @@ import { useEffect } from "react";
 
 export default function AgencyComponent() {
   const [assignUserForm, setAssignUserForm] = useState(false)
-  const { data: agencies } = useSWR("agencies");
+  const { data } = useSWR("/management/agencies");
   const { makeRequest } = useAPIContext();
   const dispatch = useDispatch();
   const { modal } = useSelector((state) => state.ModalReducer);
+
+  // console.log('Agencies partners', agencies)
 
   const add_schedule = ({
     id,
@@ -96,8 +98,13 @@ export default function AgencyComponent() {
               title: "Working hours",
               render: ({ starting_hours, closing_time }) => (
                 <>
-                  {dayjs(starting_hours).format("HH:mma")} -
-                  {dayjs(closing_time).format("HH:mma")}
+                  {
+                    starting_hours && closing_time ? (
+                      <>
+                        {dayjs(starting_hours).format("HH:mma")} - {dayjs(closing_time).format("HH:mma")}
+                      </>
+                    ) : 'Not set'
+                  }
                 </>
               ),
             },
@@ -117,7 +124,7 @@ export default function AgencyComponent() {
               ),
             },
           ]}
-          data={agencies?.data ?? []}
+          data={data?.agencies ?? []}
           actions={[
             {
               icon: () => <Icon.UilPen className="text-sky-500" />,

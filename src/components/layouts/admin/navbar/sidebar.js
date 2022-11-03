@@ -1,4 +1,7 @@
 import Link from 'components/widgets/link'
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import * as Icon from '@iconscout/react-unicons'
 import { useRouter } from 'next/router'
 
@@ -48,16 +51,28 @@ const links = [
     icon: <Icon.UilTicket />
   },
   {
+    name: 'Agencies',
+    url: '/management/agencies',
+    highlight: '/management/agencies',
+    icon: <AccountBalanceIcon />
+  },
+  {
     name: 'Users',
     url: '/management/users',
     highlight: '/management/users',
     icon: <Icon.UilUsersAlt />
   },
   {
+    name: 'Events',
+    url: '/management/events',
+    highlight: '/management/events',
+    icon: <EventAvailableIcon  />
+  },
+  {
     name: 'Revenue',
     url: '/management/revenue',
     highlight: '/management/revenue',
-    icon: <Icon.UilMoneyBill />
+    icon: <LocalAtmIcon />
   },
   {
     name: 'Schedule',

@@ -22,10 +22,10 @@ export default class HttpReq {
     // attached required parameters to the request
     this.http.interceptors.response.use(
       function (response) {
-        let { data, message } = response.data;
-        // console.log('SErver response from axios', response.data)
+        let {  message,...data } = response.data;
+        // console.log('SErver response from axios', data)
         
-        return {data, message};
+        return {...data, message};
       },
       function (error) {
         let { message } = error.response.data;

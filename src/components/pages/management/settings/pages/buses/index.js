@@ -2,16 +2,16 @@ import { MTableToolbar } from "@material-table/core";
 import { useSelector } from "react-redux";
 import * as Icon from "@iconscout/react-unicons";
 import MTableComponent from "components/widgets/mtable";
-import ApiMenu from "components/widgets/api_menu";
+// import ApiMenu from "components/widgets/api_menu";
 import { Btn } from "components/widgets/btn";
 import { show_modal, step_modal } from "hooks/redux/modal_reducer";
 import { useDispatch } from "react-redux";
-import { schedule_validation } from "components/validations";
-import BusForm from "./bus_form";
+// import { schedule_validation } from "components/validations";
+// import BusForm from "./bus_form";
 import useSWR from "swr";
 
 export default function BusComponent() {
-  const { data: bus } = useSWR();
+  const { data } = useSWR('/management/bus');
   const dispatch = useDispatch();
   const { modal } = useSelector((state) => state.ModalReducer);
 
@@ -19,28 +19,32 @@ export default function BusComponent() {
     id,
     label,
     capacity,
-    plate_no,
+    plateNo,
     color,
-    seat_arrangement_style,
+    seatArrangement,
+    pictures
   }) => {
     dispatch(
       step_modal({
         method: id ? "patch" : "post",
-        url: id ? `/bus/${id}` : "/bus",
+        url: id ? `/management/bus/${id}` : "/management/bus",
         content: 'bus',
         title: id ? "Edit bus information" : "Add new bus",
-        mutation: "/bus",
+        mutation: "management/bus",
         values: {
           label: label ?? "",
           capacity: capacity ?? "",
-          plate_no: plate_no ?? "",
+          plateNo: plateNo ?? "",
           color: color ?? "",
-          seat_arrangement_style: seat_arrangement_style ?? "",
+          seatArrangement: seatArrangement ?? "",
+          pictures: pictures ? JSON.parse(pictures) : ""
         },
         // width: 'w-[600px]'
       })
     );
   };
+
+  console.log('Returned buses', data?.buses)
 
   return (
     <div className="contained table-paper">
@@ -58,7 +62,7 @@ export default function BusComponent() {
             title: "Capacity",
           },
           {
-            field: "plate_no",
+            field: "plateNo",
             title: "Number plate",
           },
           {
@@ -82,7 +86,7 @@ export default function BusComponent() {
           //   ),
           // },
         ]}
-        data={bus?.data ?? []}
+        data={data?.buses ?? []}
         actions={[
           {
             icon: ''
@@ -127,12 +131,13 @@ export default function BusComponent() {
 
 
 export const submit_bus_handler = (data) => {
+console.log('Submit handler', data)
   const form_data = new FormData();
 
   const { pictures, ...payload } = data;
 
   pictures.forEach((value) => {
-    form_data.append('pictures[]', value);
+    form_data.append('images[]', value);
   })
 
 
