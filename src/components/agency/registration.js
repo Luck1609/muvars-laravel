@@ -33,7 +33,7 @@ export default function AgencyRegistrationComponent({ children }) {
       starting_hours: "",
       closing_time: "",
     });
-  }, []);
+  }, [reset]);
 
   const submitForm = async (payload) => {
     console.log("Agency payload", payload);
