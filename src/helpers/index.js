@@ -1,5 +1,5 @@
 export default class Helper {
-  baseUrl = 'http://localhost:8000/';
+  baseUrl = 'https://api.rudragh.com';
 
   // Capitalize first letter
   ucwords = (info) => {

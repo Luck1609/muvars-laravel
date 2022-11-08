@@ -26,7 +26,7 @@ export default function useAPIContext() {
 
         try {
           const data = await http[method](
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.rudragh.com'}${url}`,
             payload,
             options
           );

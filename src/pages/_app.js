@@ -16,7 +16,7 @@ const http = new HttpReq();
 export default function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   
   const fetcher = async (url) =>
-    await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`);
+    await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.rudragh.com'}${url}`);
 
   return (
     <StyledEngineProvider injectFirst>
