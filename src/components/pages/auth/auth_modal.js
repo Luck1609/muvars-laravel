@@ -1,12 +1,9 @@
 import { useEffect } from "react";
 import { useForm,FormProvider } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import * as Icons from "@iconscout/react-unicons";
-import { buses } from "assets/img/bus";
 import { Btn, FormBtn } from "components/widgets/btn";
 import { show_auth_modal } from "hooks/redux/modal_reducer";
 import useAPIContext from "hooks/api_context";

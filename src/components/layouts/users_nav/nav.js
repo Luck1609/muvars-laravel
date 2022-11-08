@@ -1,7 +1,9 @@
 import { UilBars } from "@iconscout/react-unicons";
+import { buses } from "assets/img/bus";
 import { Btn } from "components/widgets/btn";
 import LinkItem from "components/widgets/link";
 import CustomMenu from "components/widgets/menu_item";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import UserTab from "../admin/navbar/user_tab";
 
@@ -15,7 +17,9 @@ export default function Nav() {
     <nav className="flex w-full bg-[#007bff] text-white">
       <div className="contained w-full flex py-3 items-center">
         <div className="grow">
-          <label className="text-2xl font-bold text-white">Muvars</label>
+          <div className="w-[200px] h-16 relative">
+            <Image src={buses.logo} alt="muvers logo" layout="fill" />
+          </div>
         </div>
 
         <ul className="mr-10 hidden md:block">

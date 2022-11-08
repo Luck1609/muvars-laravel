@@ -1,6 +1,5 @@
 import "../../styles/globals.css";
 import { StyledEngineProvider } from "@mui/material";
-import { SessionProvider } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
 import FormModal from "components/widgets/modal";
 import Alert from "components/widgets/alert";
@@ -21,18 +20,16 @@ export default function MyApp({ Component, pageProps: {session, ...pageProps} })
 
   return (
     <StyledEngineProvider injectFirst>
-      <SessionProvider session={session}>
-        <Provider store={Store}>
-          <SWRConfig value={{ fetcher }}>
-            <FormModal />
-            <StepModal />
-            <AuthModal />
-            <Alert />
-            <NoticeModal />
-            <Component pageProps={pageProps} />
-          </SWRConfig>
-        </Provider>
-      </SessionProvider>
+      <Provider store={Store}>
+        <SWRConfig value={{ fetcher }}>
+          <FormModal />
+          <StepModal />
+          <AuthModal />
+          <Alert />
+          <NoticeModal />
+          <Component pageProps={pageProps} />
+        </SWRConfig>
+      </Provider>
     </StyledEngineProvider>
   );
 }

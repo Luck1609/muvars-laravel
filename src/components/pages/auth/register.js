@@ -7,13 +7,13 @@ import { show_auth_modal } from 'hooks/redux/modal_reducer'
 import { useDispatch } from 'react-redux'
 import Login from './login'
 
-export default function Register() {
+export default function RegisterComponent() {
   const dispatch = useDispatch()
 
   
 
   return (
-    <div className="w-10/12 mx-auto grid grid-cols-2 gap-3">
+    <div className="w-full mx-auto grid grid-cols-2 gap-3">
       <Input 
         name="firstname"
         label="Firstname"

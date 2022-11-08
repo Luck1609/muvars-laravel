@@ -1,30 +1,18 @@
 import Layout from "components/layouts/users_nav";
+import { useRouter } from "next/router";
 import ScheduleCard from "./schedule_card";
 
 
-export default function BusScheduleComponent() {
+export default function BusScheduleComponent({ buses }) {
+  const router = useRouter();
+
+  // console.log('Schedule router ', router)
+
   return (
-    <Layout>
-      <div className="contained">
-        <div className="my-10 grid lg:grid-cols-8 gap-5">
-
-          <div className="lg:col-span-2 px-3 lg:px-0 w-full">
-            <div className="bg-white shadow-sm">
-              <h4 className="text-lg font-semibold">Filter</h4>
-            </div>
-          </div>
-
-
-          <div className="lg:col-span-6 grid gap-7">
-            <ScheduleCard />
-            <ScheduleCard />
-            <ScheduleCard />
-            <ScheduleCard />
-            <ScheduleCard />
-            <ScheduleCard />
-          </div>
-        </div>
-      </div>
-    </Layout>
+    <div className="grid gap-7">
+      {
+        buses.map((bus, index) => <ScheduleCard data={bus} key={index.toString()} />)
+      }
+    </div>
   )
 }

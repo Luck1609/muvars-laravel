@@ -60,7 +60,8 @@ export default function ScheduleComponent() {
           },
           {
             field: 'bus_num',
-            title: 'Bus No.'
+            title: 'Bus No.',
+            render: ({bus}) => <>{ bus.plateNo }</>
           },
           {
             field: 'route',

@@ -57,7 +57,7 @@ export async function getServerSideProps({req, res, query}) {
     }
   })
 
-console.log('Current user', user)
+// console.log('Current user', user)
 
   // if (!session) {
   //   return {

@@ -22,7 +22,7 @@ export default function ScheduleForm() {
       {/* <Input name="driver" label="Select driver" options={[]} /> */}
 
       <Input
-        name="bus"
+        name="busId"
         label="Select bus"
         options={
           busData?.buses
@@ -42,7 +42,7 @@ export default function ScheduleForm() {
       <Input name="fare" label="Fare" type="number" />
 
       <Input
-        name="origin"
+        name="originId"
         label="Bus origin"
         options={
           routeData?.routes
@@ -55,7 +55,7 @@ export default function ScheduleForm() {
       />
 
       <Input
-        name="destination"
+        name="destinationId"
         label="Bus destination"
         options={
           routeData?.routes

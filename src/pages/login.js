@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router';
 import GuestLayout from 'components/layouts/admin/guest_route';
+import LoginComponent from 'components/pages/auth/login';
 
 
 export default function Login() {
@@ -10,7 +11,8 @@ export default function Login() {
 
   return (
     <GuestLayout>
-
+      <label className="text-3xl font-bold block py-4">Login</label>
+      <LoginComponent />
     </GuestLayout>
   )
 }
@@ -18,7 +20,7 @@ export default function Login() {
 
 
 export async function getServerSideProps() {
-  // const { data, error } = await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/mouvers/user-data`);
+  // const { data, error } = await http.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user-data`);
   console.log('User data')
   // if (error) {
   //   return {

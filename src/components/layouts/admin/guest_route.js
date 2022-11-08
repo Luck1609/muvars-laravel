@@ -6,28 +6,52 @@ import { useRouter } from "next/router";
 
 // import * as UIcons from '@iconscout/react-unicons'
 import { Btn, FormBtn } from "components/widgets/btn";
+import useAPIContext from "hooks/api_context";
 
 export default function GuestLayout({ children }) {
   const { pathname, push } = useRouter();
+  const { makeRequest } = useAPIContext()
 
   // const { login, forgotPassword, register, resetPassword } = useAdminAuth({
   //   middleware: "guest"
   // });
-
-  const submitForm = async (payload) => {
+  const submitAction = () => {
     switch (pathname) {
-      case "/management/login":
-        login({ payload });
-        break;
+      case '/login':
+        push('/')
+      break;
 
-      case "/management/forgot-password":
-        forgotPassword({ payload });
-        break;
-
+      case '/register':
+        push('/login')
+      break;
+    
       default:
-        if (/password-reset/.test(pathname)) resetPassword({ payload });
         break;
     }
+  }
+
+  const submitForm = async (payload) => {
+    makeRequest({
+      method: 'post',
+      url: pathname,
+      payload,
+      action: submitAction
+    })
+    // switch (pathname) {
+    //   case "/login":
+    //     makeRequest({
+
+    //     })
+    //     break;
+
+    //   case "/forgot-password":
+    //     forgotPassword({ payload });
+    //     break;
+
+    //   default:
+    //     if (/password-reset/.test(pathname)) resetPassword({ payload });
+    //     break;
+    // }
   };
 
 
@@ -44,14 +68,14 @@ export default function GuestLayout({ children }) {
     formState: { isValid, isDirty },
   } = methods;
 
-  const create_agency = () => push('/management/register');
+  // const create_agency = () => push('/register');
 
   return (
     <main className="w-full flex">
       <div className="w-[65%] bg-wallpaper bg-cover h-screen relative hidden md:flex before:absolute before:left-0 before:top-0 before:bg-black before:bg-opacity-60 before:z-10 before:w-full before:h-full">
         <div className="m-auto text-white w-5/6 z-20 leading-snug text-center">
           <h3 className="text-3xl font-semibold leading-snug mb-4">
-            Welcome to Smart Ticket Admin Dashboard
+            Welcome to Muvers Ghana
           </h3>
           <h3 className="text-xl font-semibold leading-snug">
             Please login to continue
@@ -74,7 +98,7 @@ export default function GuestLayout({ children }) {
             />
 
             
-            <div className="mt-8">
+            {/* <div className="mt-8">
               <p className="text-sm flex items-center">Have an agency code? 
                 <Btn 
                   content="Register here" 
@@ -82,7 +106,7 @@ export default function GuestLayout({ children }) {
                   click={create_agency}
                 />
               </p>
-            </div>
+            </div> */}
           </form>
         </div>
       </FormProvider>

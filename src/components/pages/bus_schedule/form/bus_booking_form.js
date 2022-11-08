@@ -1,5 +1,6 @@
 import Input from 'components/widgets/input'
 import PhoneNumberInput from 'components/widgets/phone_number_input'
+import RadioOptions from 'components/widgets/radio'
 
 export default function BusBookingForm() {
   return (
@@ -17,15 +18,25 @@ export default function BusBookingForm() {
         />
       </div>
 
-      <Input 
-        name="emergency_contact_name"
-        label="Name of emergency contact"
+      <RadioOptions 
+        name="gender"
+        label="Gender"
+        options={[
+          {
+            label: 'Male',
+            value: 'male'
+          },
+          {
+            label: 'Female',
+            value: 'female'
+          },
+        ]}
       />
 
       <div className="w-full">
         <PhoneNumberInput 
           name="emergency_contact_phone"
-          label="Name of emergency contact"
+          label="Emergency number"
           className="h-14 w-full rounded-[4px]"
         />
       </div>

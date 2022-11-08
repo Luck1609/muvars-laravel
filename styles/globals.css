@@ -29,9 +29,23 @@ body, table, button, label, .MuiFormControl-root label, .phone-input label {
 }
 
 .contained {
-  @apply max-w-[1140px] m-auto px-3 lg:px-0;
+  @apply max-w-7xl m-auto px-3 lg:px-0;
 }
 
 .table-paper > div {
   @apply shadow-none;
+}
+
+
+.dashboard-filter input {
+  padding: 10px;
+}
+
+
+.dashboard-filter label {
+  top: -5px;
+}
+
+.btn {
+  @apply min-w-0
 }

@@ -1,15 +1,16 @@
 import { Button } from '@mui/material';
 
 
-export const Btn = ({ content, className, variant, click, disabled }) => {
+export const Btn = ({ content, className, variant, click, disabled, type = 'button' }) => {
 
   return (
     <Button
       variant={ variant ?? 'contained' }
-      className={`${className} shadow-none hover:shadow-none capitalize inline-block ${ disabled && 'opacity-50' }`}
+      className={`${className} shadow-none hover:shadow-none inline-block ${ disabled && 'opacity-50' }`}
       style={{ textTransform: 'none'}}
       onClick={ click }
       disabled={ disabled }
+      type={type}
     >
       {content}
     </Button>
@@ -29,7 +30,7 @@ export const FormBtn = ({
       className={`${className} shadow-none hover:shadow-none focus:outline-none inline-block ${ disabled && 'opacity-50' }`}
       type="submit"
       disabled={ disabled }
-      style={{ textTransform: "capitalize"}}
+      style={{ textTransform: "none"}}
     >
       {content}
     </Button>

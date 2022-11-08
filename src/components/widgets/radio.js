@@ -21,29 +21,32 @@ export default function RadioOptions({ name, label, options = [], placement = 'e
       control={control}
       name={name}
       render={({ field: { onChange, onBlur, value = '' }, fieldState: { error } }) => (
-        <FormControl>
-          <RadioGroup
-            row
-            aria-labelledby="demo-form-control-label-placement"
-            // name={name}
-            value={value}
-            onChange={onChange}
-          >
-            {
-              options.map(({ label, value }, index) => {
-                return (
-                  <FormControlLabel
-                    value={value}
-                    control={<Radio />}
-                    label={label}
-                    labelPlacement={placement}
-                    key={index.toString()}
-                  />
-                )
-              })
-            }
-          </RadioGroup>
-        </FormControl>
+        <div>
+          <label className="block text-sm">{label}</label>
+          <FormControl>
+            <RadioGroup
+              row
+              aria-labelledby="demo-form-control-label-placement"
+              // name={name}
+              value={value}
+              onChange={onChange}
+            >
+              {
+                options.map(({ label, value }, index) => {
+                  return (
+                    <FormControlLabel
+                      value={value}
+                      control={<Radio />}
+                      label={label}
+                      labelPlacement={placement}
+                      key={index.toString()}
+                    />
+                  )
+                })
+              }
+            </RadioGroup>
+          </FormControl>
+        </div>
       )}
     />
   );

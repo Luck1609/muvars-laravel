@@ -34,7 +34,7 @@ export default function FormModal() {
         url: data?.url,
         payload,
         mutation: data?.mutation,
-        action: () => data?.action ?? dispatch(show_modal('close'))
+        // action: () => data?.action ?? dispatch(show_modal('close'))
       })
     } catch ({ message }) {
     }

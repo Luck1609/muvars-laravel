@@ -14,9 +14,9 @@ module.exports = (phase, {defaultConfig}) => {
     return {
       /* development only config options here */
       reactStrictMode: true,
-      // images: {
-      //   domains: ['localhost:3000'],
-      // }
+      images: {
+        domains: ['localhost'],
+      }
     }
   }
 

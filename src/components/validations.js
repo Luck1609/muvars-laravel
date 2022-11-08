@@ -73,10 +73,10 @@ export const registration_validation = yup.object().shape({
 });
 
 export const schedule_validation = yup.object().shape({
-  bus: yup.number().required(),
+  busId: yup.number().required(),
   fare: yup.string().required(),
-  origin: yup.string().required(),
-  destination: yup.string().required(),
+  originId: yup.number().required(),
+  destinationId: yup.number().required(),
   reportingTime: yup
     .string()
     .required()
@@ -143,4 +143,19 @@ export const emergency_contact_validation = yup.object().shape({
   origin: yup.string().required(),
   destination: yup.string().required(),
   time: yup.date().required(),
+});
+
+export const booking_validation = yup.object().shape({
+  name: yup.string().required(),
+  phone: yup.string().required(),
+  emergency_contact_phone: yup.string().required(),
+  gender: yup.string().required().oneOf(['male', 'female']),
+  origin: yup.string().required(),
+  destination: yup.string().required(),
+  fare: yup.number().required(),
+  scheduleId: yup.number().required(),
+  date: yup.date().required()
+    .test('valid-date', 'Travel date must not be in the past', (date) => {
+      if (date) return dayjs(date).isAfter(dayjs()) && dayjs(date).isSame(dayjs());
+    }),
 });

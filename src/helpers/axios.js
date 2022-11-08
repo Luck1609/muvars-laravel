@@ -28,10 +28,10 @@ export default class HttpReq {
         return {...data, message};
       },
       function (error) {
-        let { message } = error.response.data;
+console.log('Axios error object', error.response?.data)
+        // let { message } = error.response?.data;
 
-// console.log('Axios error object', error.response.data.message)
-        return {message, error: true}
+        // return {message, error: true}
 // throw message
         // throw new Error(message ?? 'Unknown error occured')
       }

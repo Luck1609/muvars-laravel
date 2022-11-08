@@ -49,3 +49,10 @@ export default class Helper {
     return filtered
   }
 }
+
+
+export const beautifyUrl = (url) => {
+  let newUrl = url.split('-').join('_')
+  
+  return newUrl.split(' ').join('-')
+}

@@ -8,12 +8,12 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import Register from "./register";
 
-export default function Login() {
+export default function LoginComponent() {
   const dispatch = useDispatch();
 
 
   return (
-    <div className="w-4/5 mx-auto grid gap-5 pb-8">
+    <div className="w-full mx-auto grid gap-5 pb-8">
       <Input name="email" label="Email address" className="w-full" />
 
       <PasswordInput name="password" label="Password" />
