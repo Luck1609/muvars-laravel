@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
+// import Image from "next/image";
 import {
   EmailSharp,
   Phone,
@@ -10,6 +10,7 @@ import {
   Grade,
   NotificationAdd,
   EditOutlined,
+  ArrowDropDown,
 } from "@mui/icons-material";
 import { Avatar, Divider } from "@mui/material";
 import { buses } from "assets/img/bus";
@@ -18,8 +19,12 @@ import Input from "components/widgets/input";
 import Link from "components/widgets/link";
 import CustomMenu from "components/widgets/menu_item";
 import PostCard from "./post_card";
+import AuthLayout from "../auth_layout";
+import AdForm from "./ad_form";
+import useSWR from "swr";
 
 export default function DashboardComponent() {
+  const { data: posts } = useSWR('/posts')
   const [toggler, setToggler] = useState("Active");
   const methods = useForm({ mode: "all" });
 
@@ -84,82 +89,14 @@ export default function DashboardComponent() {
     },
   ];
 
+  console.log('Dashboard posts', posts)
+
   return (
-    <div className="mt-10 grid grid-cols-8 gap-8">
-      <div className="col-span-2 w-full grid gap-8">
-        <div className="w-full bg-white rounded p-5 relative">
-          <Btn
-            content={<EditOutlined fontSize="small" />}
-            className="absolute"
-          />
-          {/* <h4 className="text-center mb-4 text-2xl font-semibold">Agency Name</h4> */}
-
-          <div className="w-4/5 h-14 m-auto relative mb-5">
-            {/* <Image src={buses.logo} alt="agency logo" layout="fill" /> */}
-            <Avatar className="h-16 w-16 m-auto" />
-          </div>
-          <h4 className="text-center mb-4 text-xl font-semibold">User Name</h4>
-
-          <ul className="w-full">
-            <li className="w-full p-1">
-              <a
-                href="tel:+2330500404908"
-                className="flex items-center justify-center w-full"
-              >
-                <Phone /> <span className="ml-1">0500404908</span>
-              </a>
-            </li>
-            <li className="w-full p-1">
-              <a
-                href="mailto:muvers@gmail.com"
-                className="flex items-center justify-center w-full"
-              >
-                <EmailSharp /> <span className="ml-1">muvers@gmail.com</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <ul className="w-full bg-white rounded overflow-hidden">
-          <li className="w-full">
-            <Link
-              url="/my-posts"
-              className="flex items-center w-full p-3 pl-5 hover:bg-slate-200"
-            >
-              <PostAdd /> <span className="ml-2">My posts</span>
-            </Link>
-          </li>
-          <li className="w-full">
-            <Link
-              url="/my-posts"
-              className="flex items-center w-full p-3 pl-5 hover:bg-slate-200"
-            >
-              <Grade /> <span className="ml-2">Reviews</span>
-            </Link>
-          </li>
-          <li className="w-full">
-            <Link
-              url="/my-posts"
-              className="flex items-center w-full p-3 pl-5 hover:bg-slate-200"
-            >
-              <NotificationAdd /> <span className="ml-2">Notifications</span>
-            </Link>
-          </li>
-          <li className="w-full">
-            <Link
-              url="/my-posts"
-              className="flex items-center w-full p-3 pl-5 hover:bg-slate-200"
-            >
-              <Settings /> <span className="ml-2">Settings</span>
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      <div className="w-full col-span-6">
+    <AuthLayout>
+      <>
         <div className="bg-white rounded">
           <div className="flex items-center p-4">
-            <label className="block text-lg font-semibold grow">My posts</label>
+            <label className="block text-xl font-semibold grow">My posts</label>
 
             <FormProvider {...methods}>
               <form className="flex items-center relative mr-3">
@@ -179,7 +116,7 @@ export default function DashboardComponent() {
             <CustomMenu
               Component={({ click }) => (
                 <Btn
-                  content={toggler}
+                    content={<>{toggler} <ArrowDropDown fontSize="small" /></>}
                   className="bg-sky-500 hover:bg-sky-600 mr-3 capitalize"
                   click={click}
                 />
@@ -192,9 +129,23 @@ export default function DashboardComponent() {
         <Divider className="border-slate-20000" />
 
         <div className="p-8 bg-white">
-          <PostCard />
+          <div className="flex items-center mb-5 border-b py-2">
+            <label htmlFor="" className="font-medium grow text-lg">{ toggler } posts</label>
+            <Btn 
+              content="Post Ad"
+              className="btn bg-sky-500 hover:bg-sky-600"
+
+            />
+          </div>
+
+          {/* <AdForm /> */}
+          {
+            posts?.post ? (
+              posts.post.map((data, index) => <PostCard data={data} key={index.toString()} />)
+            ) : null
+          }
         </div>
-      </div>
-    </div>
+      </>
+    </AuthLayout>
   );
 }

@@ -26,13 +26,13 @@ export default function useAPIContext() {
 
         try {
           const data = await http[method](
-            `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://api.rudragh.com'}${url}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`,
             payload,
             options
           );
 
-// console.log('API request error', data)
-          if (data?.error || data?.status === 'error') throw new Error(data.message)
+console.log('API request error', data)
+          if (data?.error) throw new Error(data.message)
           else {
             mutate(mutation)
 

@@ -28,7 +28,6 @@ export default function Home() {
     }
   }, [asPath, dispatch])
   
-
   return <HomepageComponent />;
 }
 

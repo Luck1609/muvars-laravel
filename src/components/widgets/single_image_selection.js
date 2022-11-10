@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Avatar } from '@mui/material';
 import { Add, Close, Photo } from '@mui/icons-material';
 
-export default function ImageSelection({name, label, multiple = null, ...props}) {
+export default function SingleImageSelection({name, label, multiple = null, ...props}) {
   const {register, watch, setValue} = useFormContext();
   const btnRef = useRef();
 
@@ -30,7 +30,6 @@ export default function ImageSelection({name, label, multiple = null, ...props})
                 && <RenderImage
                   images={ media }
                   remove={removeImage}
-                  cols={props.cols}
                 />
             }
           </>
@@ -39,7 +38,7 @@ export default function ImageSelection({name, label, multiple = null, ...props})
         )
       }
 
-      <div className="flex items-center">
+      <div className={`flex items-center ${props.flexDirection}`}>
         {
           media && multiple && (media?.length > 0 || Object.values(media).length > 0)
             ? (
@@ -53,8 +52,8 @@ export default function ImageSelection({name, label, multiple = null, ...props})
                   />
 
                   <Btn
-                    content={<span className="flex items-center"><Add fontSize="small" className="mr-1" /> Add image</span>}
-                    className="btn rounded bg-blue-500 hover:bg-blue-500 h-10 mt-3"
+                    content={<span className="flex items-center"><Add size={18} className="mr-1" /> Add image</span>}
+                    className="btn rounded-full bg-blue-500 hover:bg-blue-500 h-10 mt-3"
                     click={() => btnRef.current.click()}
                   />
                 </>
@@ -62,10 +61,10 @@ export default function ImageSelection({name, label, multiple = null, ...props})
                 <>
                   {
                     media ? (
-                      <div className="relative w-20 h-20 mr-3">
+                      <div className="relative w-44 h-20">
                         {
                           !media[0]?.size ? (
-                            <Photo size={80} className="h-20 w-20" />
+                            <Avatar size={80} className="m-auto h-16 w-16" />
                           ) : (
                             <>
                               {/* Uploaded image */}
@@ -79,14 +78,14 @@ export default function ImageSelection({name, label, multiple = null, ...props})
                     )
                   }
 
-                  <label className="block w-full">
+                  <span className="text-sm block mb-3">{label}</span>
+                  <label className="block w-[120px]">
                     <span className="sr-only">{label}</span>
-                    <span className="text-sm block mb-3">{label}</span>
                     <input
                       type="file"
                       {...props}
                       name={name}
-                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-400"
+                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-400"
                       {...register(name)}
                     />
                   </label>
@@ -99,9 +98,9 @@ export default function ImageSelection({name, label, multiple = null, ...props})
 }
 
 
-const RenderImage = ({images, remove, cols}) => {
+const RenderImage = ({images, remove}) => {
   return (
-    <div className={`grid ${cols} gap-8 col-span-2`}>
+    <div className="grid grid-cols-4 gap-8 col-span-2">
       {
         Object.entries(images).map(([key, img], index) => {
           return (

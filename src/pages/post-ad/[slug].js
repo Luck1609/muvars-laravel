@@ -1,17 +1,17 @@
 import React from "react";
 import Layout from "components/layouts/users_nav";
-import SettingsComponent from "components/pages/user/settings";
+import AdForm from "components/pages/user/dashboard/ad_form";
 import HttpReq from "helpers/axios";
 
-export default function Settings({ pageProps: {user} }) {   
-
+export default function Posts({ pageProps: { user } }) {
   return (
     <Layout>
-      <SettingsComponent user={user} />
+      <div className="w-full max-w-4xl m-auto bg-white p-10 rounded my-10">
+        <AdForm user={user} />
+      </div>
     </Layout>
   );
 }
-
 
 const http = new HttpReq();
 

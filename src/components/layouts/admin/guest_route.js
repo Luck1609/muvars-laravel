@@ -72,7 +72,7 @@ export default function GuestLayout({ children }) {
 
   return (
     <main className="w-full flex">
-      <div className="w-[65%] bg-wallpaper bg-cover h-screen relative hidden md:flex before:absolute before:left-0 before:top-0 before:bg-black before:bg-opacity-60 before:z-10 before:w-full before:h-full">
+      <div className="w-[60%] bg-wallpaper bg-cover h-screen relative hidden md:flex before:absolute before:left-0 before:top-0 before:bg-black before:bg-opacity-60 before:z-10 before:w-full before:h-full">
         <div className="m-auto text-white w-5/6 z-20 leading-snug text-center">
           <h3 className="text-3xl font-semibold leading-snug mb-4">
             Welcome to Muvers Ghana
@@ -84,8 +84,8 @@ export default function GuestLayout({ children }) {
       </div>
 
       <FormProvider {...methods}>
-        <div className="w-full md:w-[35%] flex">
-          <form className="w-4/5 m-auto" onSubmit={handleSubmit(submitForm)}>
+        <div className="w-full md:w-[40%] flex">
+          <form className="w-5/6 m-auto" onSubmit={handleSubmit(submitForm)}>
             {children}
             <FormBtn
               disabled={!isValid || !isDirty}

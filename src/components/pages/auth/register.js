@@ -1,16 +1,18 @@
+import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 import { Btn } from 'components/widgets/btn'
 import Input from 'components/widgets/input'
 import PasswordInput from 'components/widgets/password_input'
 import PhoneNumberInput from 'components/widgets/phone_number_input'
 import RadioOptions from 'components/widgets/radio'
 import { show_auth_modal } from 'hooks/redux/modal_reducer'
-import { useDispatch } from 'react-redux'
 import Login from './login'
 
 export default function RegisterComponent() {
-  const dispatch = useDispatch()
+  const { push } = useRouter()
+  // const dispatch = useDispatch()
 
-  
+  const goto = () => push('/login')
 
   return (
     <div className="w-full mx-auto grid grid-cols-2 gap-3">
@@ -59,21 +61,22 @@ export default function RegisterComponent() {
         <Btn 
           content="Login here" 
           className="text-primary hover:bg-transparent ml-1 p-0.5 px-3" 
-          click={
-            () => dispatch(
-              show_auth_modal({
-                url: '/login',
-                title: 'Login',
-                content: Login,
-                values: {
-                  email: '',
-                  password: '',
-                },
-                validation: '',
-                width: 'w-[350px]'
-              })
-            )
-          }
+          click={goto}
+          // click={
+          //   () => dispatch(
+          //     show_auth_modal({
+          //       url: '/login',
+          //       title: 'Login',
+          //       content: Login,
+          //       values: {
+          //         email: '',
+          //         password: '',
+          //       },
+          //       validation: '',
+          //       width: 'w-[350px]'
+          //     })
+          //   )
+          // }
         />
       </p>
     </div>

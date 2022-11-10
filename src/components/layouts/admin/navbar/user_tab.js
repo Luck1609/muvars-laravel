@@ -9,19 +9,29 @@ import { useRouter } from 'next/router'
 import * as Icons from '@iconscout/react-unicons'
 import CustomMenu from 'components/widgets/menu_item'
 import { show_auth_modal } from 'hooks/redux/modal_reducer'
+import useAPIContext from 'hooks/api_context'
 
 
 
 export default function UserTab() {
-  const {data: session} = useSWR('/user-data')
+  const {data: session} = useSWR('/user-data');
+  const { makeRequest } = useAPIContext();
   // const session = '';
   const { push } = useRouter()
   const dispatch = useDispatch()
 
-  const goto = (route) => push(route);
+  const goto = (route) =>  () => push(route);
 
-  // console.log('User session', session)
+  console.log('User session', session)
   const user = session?.user;
+
+  const logout = () => {
+    makeRequest({
+      method: 'post',
+      url: '/logout',
+      action: () => push('/')
+    })
+  }
 
   return (
     <>
@@ -31,41 +41,43 @@ export default function UserTab() {
             <Btn 
               content="Login"
               className="bg-rose-500 hover:bg-rose-600"
-              click={() => dispatch(
-                  show_auth_modal({
-                    url: "/login",
-                    title: "Login",
-                    content: 'login',
-                    values: {
-                      email: "",
-                      password: "",
-                    },
-                    width: "w-[400px]",
-                  })
-                )
-              }
+              click={goto('/login')}
+              // click={() => dispatch(
+              //     show_auth_modal({
+              //       url: "/login",
+              //       title: "Login",
+              //       content: 'login',
+              //       values: {
+              //         email: "",
+              //         password: "",
+              //       },
+              //       width: "w-[400px]",
+              //     })
+              //   )
+              // }
             />
             <Btn 
               content="Register"
               className="bg-green-500 hover:bg-green-600 ml-4"
-              click={() => dispatch(
-                  show_auth_modal({
-                    url: "/register",
-                    title: "Register",
-                    content: 'register',
-                    values: {
-                      firstname: "",
-                      lastname: "",
-                      email: "",
-                      phone: "",
-                      gender: "male",
-                      password: "",
-                      password_confirmation: "",
-                    },
-                    width: "w-[550px]",
-                  })
-                )
-              }
+              click={goto('/register')}
+              // click={() => dispatch(
+              //     show_auth_modal({
+              //       url: "/register",
+              //       title: "Register",
+              //       content: 'register',
+              //       values: {
+              //         firstname: "",
+              //         lastname: "",
+              //         email: "",
+              //         phone: "",
+              //         gender: "male",
+              //         password: "",
+              //         password_confirmation: "",
+              //       },
+              //       width: "w-[550px]",
+              //     })
+              //   )
+              // }
             />
           </div>
         ) : (
@@ -111,7 +123,7 @@ export default function UserTab() {
                   label="Logout"
                   Icon={() => <Icons.UilSignout />}
                   click={() => {
-                    signOut()
+                    logout()
                     close()
                   }}
                 />
