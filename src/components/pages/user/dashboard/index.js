@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useSWR from "swr";
+import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
 // import Image from "next/image";
 import {
@@ -20,15 +22,16 @@ import Link from "components/widgets/link";
 import CustomMenu from "components/widgets/menu_item";
 import PostCard from "./post_card";
 import AuthLayout from "../auth_layout";
-import AdForm from "./ad_form";
-import useSWR from "swr";
+// import AdForm from "./ad_form";
 
 export default function DashboardComponent() {
+  const { push } = useRouter()
   const { data: posts } = useSWR('/posts')
   const [toggler, setToggler] = useState("Active");
   const methods = useForm({ mode: "all" });
 
   const toggle = (data) => setToggler(data);
+  const goto = (route) => () => push(route)
 
   const options = [
     {
@@ -89,7 +92,7 @@ export default function DashboardComponent() {
     },
   ];
 
-  console.log('Dashboard posts', posts)
+  // console.log('Dashboard posts', posts)
 
   return (
     <AuthLayout>
@@ -134,7 +137,7 @@ export default function DashboardComponent() {
             <Btn 
               content="Post Ad"
               className="btn bg-sky-500 hover:bg-sky-600"
-
+              click={goto('/post-ad')}
             />
           </div>
 

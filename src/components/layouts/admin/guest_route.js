@@ -1,5 +1,7 @@
 // import { useEffect, useState } from 'react'
 import { FormProvider, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useSWRConfig } from "swr";
 import { useRouter } from "next/router";
 // import { yupResolver } from '@hookform/resolvers/yup'
 // import validations from 'helper/yupValidations'
@@ -7,18 +9,21 @@ import { useRouter } from "next/router";
 // import * as UIcons from '@iconscout/react-unicons'
 import { Btn, FormBtn } from "components/widgets/btn";
 import useAPIContext from "hooks/api_context";
+import { auth_user } from "hooks/redux/modal_reducer";
 
 export default function GuestLayout({ children }) {
+  const { mutate } = useSWRConfig()
   const { pathname, push } = useRouter();
-  const { makeRequest } = useAPIContext()
+  const { makeRequest } = useAPIContext();
+  const dispatch = useDispatch();
 
   // const { login, forgotPassword, register, resetPassword } = useAdminAuth({
   //   middleware: "guest"
   // });
-  const submitAction = () => {
+  const submitAction = (data) => {
     switch (pathname) {
       case '/login':
-        push('/')
+        mutation(data)
       break;
 
       case '/register':
@@ -30,12 +35,17 @@ export default function GuestLayout({ children }) {
     }
   }
 
+  const mutation = async (data) => {
+    dispatch(auth_user(data))
+    push('/')
+  }
+
   const submitForm = async (payload) => {
     makeRequest({
       method: 'post',
       url: pathname,
       payload,
-      action: submitAction
+      action: (data) => submitAction(data)
     })
     // switch (pathname) {
     //   case "/login":

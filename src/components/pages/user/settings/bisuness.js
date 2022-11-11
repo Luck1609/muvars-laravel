@@ -3,9 +3,29 @@ import { FormProvider, useForm } from "react-hook-form";
 import Input from "components/widgets/input";
 import { FormBtn } from 'components/widgets/btn';
 import ImageSelection from 'components/widgets/image_selection';
+import { useEffect } from 'react';
 
-export default function Bisuness() {
+export default function Bisuness({ business }) {
   const methods = useForm({mode: 'all'})
+
+  const { reset, handleSubmit } = methods;
+
+  console.log('business info', business)
+
+  useEffect(() => {
+    reset({
+      name: business?.name ?? "",
+      phone: business?.phone ?? "",
+      email: business?.email ?? "",
+      logo: business?.logo ?? "",
+      website: business?.website ?? "",
+      description: business?.description ?? "",
+      region: business?.region ?? "",
+      town: business?.town ?? "",
+      address: business?.address ?? "",
+    })
+  }, [business, reset]);
+  
 
   return (
     <FormProvider {...methods}>
@@ -76,13 +96,13 @@ export default function Bisuness() {
         />
 
         <Input 
-          name="email"
+          name="town"
           label="Business location (City/Town)"
           className="w-full"
         />
 
         <Input 
-          name="name"
+          name="address"
           label="Business address"
           className="w-full"
         />

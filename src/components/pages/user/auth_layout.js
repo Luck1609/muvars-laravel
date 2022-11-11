@@ -1,19 +1,20 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import {
-  EmailSharp,
+  // EmailSharp,
   Phone,
   PostAdd,
-  SearchOutlined,
   Settings,
   Grade,
   NotificationAdd,
-  EditOutlined,
+  AlternateEmail,
 } from "@mui/icons-material";
 import { Avatar, Divider } from "@mui/material";
 import { Btn, FormBtn } from "components/widgets/btn";
 import Link from "components/widgets/link";
 
-export default function AuthLayout({ children }) {
+export default function AuthLayout({ children, user }) {
+
   return (
     <div className="mt-10 grid grid-cols-8 gap-8 contained">
       <div className="col-span-2 w-full flex flex-col gap-8">
@@ -22,7 +23,7 @@ export default function AuthLayout({ children }) {
           <div className="w-4/5 h-14 m-auto relative mb-5">
             <Avatar className="h-16 w-16 m-auto" />
           </div>
-          <h4 className="text-center mb-4 text-xl font-semibold">User Name</h4>
+          <h4 className="text-center mb-4 text-xl font-semibold">{`${user.firstname} ${user.lastname}`}</h4>
 
           <ul className="w-full">
             <li className="w-full p-1">
@@ -30,7 +31,7 @@ export default function AuthLayout({ children }) {
                 href="tel:+2330500404908"
                 className="flex items-center justify-center w-full"
               >
-                <Phone /> <span className="ml-1">0500404908</span>
+                <Phone /> <span className="ml-1">{ user.phone.replace('+233', '0') }</span>
               </a>
             </li>
             <li className="w-full p-1">
@@ -38,7 +39,7 @@ export default function AuthLayout({ children }) {
                 href="mailto:muvers@gmail.com"
                 className="flex items-center justify-center w-full"
               >
-                <EmailSharp /> <span className="ml-1">muvers@gmail.com</span>
+                <AlternateEmail /> <span className="ml-1">{ user.email }</span>
               </a>
             </li>
           </ul>

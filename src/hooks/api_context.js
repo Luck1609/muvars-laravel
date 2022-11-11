@@ -31,7 +31,7 @@ export default function useAPIContext() {
             options
           );
 
-console.log('API request error', data)
+// console.log('API request error', data)
           if (data?.error) throw new Error(data.message)
           else {
             mutate(mutation)
@@ -45,7 +45,7 @@ console.log('API request error', data)
               });
 
             setInfo(null);
-            if (action) action();
+            if (action) action(data);
           }
         } catch ({ message }) {
 console.log('Catch error handler', message)

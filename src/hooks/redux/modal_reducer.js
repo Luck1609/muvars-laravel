@@ -48,7 +48,8 @@ export const initialState = {
       url: null,
       values: null
     }
-  }
+  },
+  user: null
 }
 
 const ModalReducer = createSlice({
@@ -102,10 +103,18 @@ const ModalReducer = createSlice({
           data: payload
         }
       }
+    },
+
+    auth_user: (state, {payload})   => {
+      console.log('Auth user payload', payload)
+      return { 
+        ...state,
+        user: payload === 'logout' ? initialState.user : {...payload}
+      }
     }
   }
 }) 
 
 
-export const { show_modal, show_notice, step_modal, show_auth_modal } = ModalReducer.actions
+export const { show_modal, show_notice, step_modal, show_auth_modal, auth_user } = ModalReducer.actions
 export default ModalReducer.reducer

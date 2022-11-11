@@ -34,8 +34,9 @@ export default function PostCard({ data: {title, expiresAt, createdAt, img, slug
         </div>
 
         <div className="text-sm flex items-center">
-          <ContentPaste fontSize="small" /><label className="font-semibold ">Posted on:</label>
-          <span className="ml-2 ">{dayjs(createdAt).format('DD MMM, YYYY')}</span>
+          <ContentPaste fontSize="small" />
+          <label className="font-medium ml-1">Posted on:</label>
+          <span className="ml-2">{dayjs(createdAt).format('DD MMM, YYYY')}</span>
         </div>
 
         <div className="flex items-center h-12">
