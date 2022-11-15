@@ -66,12 +66,13 @@ export default function Search() {
               </label>
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative">
               <Input
                 name="origin"
                 label="from where?"
                 className="w-full bg-white rounded-md mb-5 lg:mb-0"
               />
+
 
               <FilterRoutes
                 options={
@@ -86,10 +87,11 @@ export default function Search() {
                     : []
                 }
                 name="origin"
+                className="bg-white rounded absolute top-14 w-full z-[60]"
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative">
               <Input
                 name="destination"
                 label="to where?"
@@ -109,6 +111,7 @@ export default function Search() {
                     : []
                 }
                 name="destination"
+                className="bg-white rounded absolute top-14 w-full z-10"
               />
             </div>
 

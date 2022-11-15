@@ -12,6 +12,8 @@ export default function SingleImageSelection({name, label, ...props}) {
 
   const media = watch(name);
 
+  console.log('currentv media', media)
+
   return (
     <>
       <div className={`flex items-center ${props.flexdirection}`}>
@@ -21,7 +23,7 @@ export default function SingleImageSelection({name, label, ...props}) {
                 !media ? (
                   <Avatar size={80} className="m-auto h-16 w-16" />
                 ) : (
-                  <Image src={typeof(media) === 'string' ? media : URL.createObjectURL(media[0])} alt={props.alt_text} layout="fill" className="rounded inline-block mr-2" />
+                  <Image src={ media.length === 1 ? URL.createObjectURL(media[0]) : media } alt={props.alt_text} layout="fill" className="rounded inline-block mr-2" />
                 )
               }
             </div>

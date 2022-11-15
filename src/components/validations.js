@@ -148,14 +148,14 @@ export const emergency_contact_validation = yup.object().shape({
 export const booking_validation = yup.object().shape({
   name: yup.string().required(),
   phone: yup.string().required(),
-  emergency_contact_phone: yup.string().required(),
+  emergencyContactPhone: yup.string().required(),
   gender: yup.string().required().oneOf(['male', 'female']),
   origin: yup.string().required(),
   destination: yup.string().required(),
   fare: yup.number().required(),
   scheduleId: yup.number().required(),
-  date: yup.date().required()
+  travelDate: yup.date().required()
     .test('valid-date', 'Travel date must not be in the past', (date) => {
-      if (date) return dayjs(date).isAfter(dayjs()) && dayjs(date).isSame(dayjs());
+      if (date) return dayjs(date).isAfter(dayjs()) || dayjs(date).isSame(dayjs());
     }),
 });

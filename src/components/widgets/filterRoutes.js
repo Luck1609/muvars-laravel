@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-export default function BasicList({ options, name }) {
+export default function BasicList({ options, name, className }) {
   const { setValue } = useFormContext()
 
   const selection = (label) => () => setValue(name, label)
@@ -10,7 +10,7 @@ export default function BasicList({ options, name }) {
     <>
       {
         options.length < 1 ? null : (
-          <ul className="bg-white rounded">
+          <ul className={`${className}`}>
             {
               options.map(({label, value}, index) => {
                 return (

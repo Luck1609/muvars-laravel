@@ -5,7 +5,8 @@ import React from "react";
 export default function EventBooking({pageProps}) {
   // console.log('Booking component props', pageProps)
 
-  return <EventComponent event={pageProps.event} />;
+  return <></>;
+  // return <EventComponent event={pageProps.event} />;
 }
 
 const http = new HttpReq();
@@ -16,7 +17,7 @@ export async function getServerSideProps({ query: { slug } }) {
   
   return {
     props: {
-      event: data[0],
+      // event: data,
     },
   };
 }

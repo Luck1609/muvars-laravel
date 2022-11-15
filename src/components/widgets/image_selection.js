@@ -18,7 +18,7 @@ export default function ImageSelection({name, label, multiple = null, ...props})
   const addImg = ({target:{files: img}}) => setValue(name, [...Object.values(media), img[0]])
 
   // console.log('Post update media', media)
-                      { console.log('To be uploaded img', media) }
+                      // { console.log('To be uploaded img', media) }
 
   return (
     <>

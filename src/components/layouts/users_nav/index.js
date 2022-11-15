@@ -19,7 +19,7 @@ export default function Layout({ children, user }) {
 
 
         {
-          ['/post-ad'].includes(pathname) ? null : (
+          ['/post-ad', '/book-bus', '/hire-bus'].includes(pathname) ? null : (
             <Btn 
               content={<span className="flex items-center justify-center text-2xl"><Add fontSize="large" className="mr-2" /> Post Ad</span>}
               className="btn fixed bottom-5 right-5 bg-amber-400 hover:bg-amber-500 z-50 w-56 h-20 rounded-full"

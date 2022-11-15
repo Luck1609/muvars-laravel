@@ -54,7 +54,7 @@ export default function AdForm({ user }) {
               Create Your Advertisement
             </label>
 
-            {
+            {/* {
               !user ? (
                 <Btn 
                   content="Submit" 
@@ -64,7 +64,7 @@ export default function AdForm({ user }) {
               ) : (
                 <FormBtn content="Submit" className="btn bg-sky-500 hover:bg-sky-600" />
               )
-            }
+            } */}
           </div>
 
           {/* <div className="col-span-2 w-4/5 m-auto">
@@ -75,12 +75,28 @@ export default function AdForm({ user }) {
 
           <Input 
             name="category" 
-            label="Category" 
+            label="Vehicle type" 
             options={[
               {
-                label: 'Services',
-                value: 'sevices'
-              }
+                label: 'Cars',
+                value: 'cars'
+              },
+              {
+                label: 'SUV\'s',
+                value: 'suv'
+              },
+              {
+                label: 'Mini bus',
+                value: 'mini bus'
+              },
+              {
+                label: 'Buses',
+                value: 'buses'
+              },
+              {
+                label: 'Trucks & Trailers',
+                value: 'trucks_trailers'
+              },
             ]} 
             className="" 
           />
@@ -90,6 +106,14 @@ export default function AdForm({ user }) {
           <Input name="price" label="Price" className="" />
 
           <Input name="seats" label="No. of seats" type="number" className="" />
+
+          {/* <Input 
+            name="description" 
+            label="Description" 
+            className="col-span-2"
+            rows={4}
+            multiline
+          /> */}
 
           <RadioOptions
             name="negotiable"
@@ -157,6 +181,20 @@ export default function AdForm({ user }) {
               </>
             ) : null
           }
+
+          <div className="col-span-2 text-center mt-5">
+            {
+              !user ? (
+                <Btn 
+                  content="Submit" 
+                  className="btn bg-sky-500 hover:bg-sky-600 w-72 h-12" 
+
+                />
+              ) : (
+                <FormBtn content="Submit" className="btn bg-sky-500 hover:bg-sky-600 w-72 h-12" />
+              )
+            }
+          </div>          
         </form>
       </FormProvider>
     </>

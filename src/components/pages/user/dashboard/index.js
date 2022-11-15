@@ -24,7 +24,7 @@ import PostCard from "./post_card";
 import AuthLayout from "../auth_layout";
 // import AdForm from "./ad_form";
 
-export default function DashboardComponent() {
+export default function DashboardComponent({ user }) {
   const { push } = useRouter()
   const { data: posts } = useSWR('/posts')
   const [toggler, setToggler] = useState("Active");

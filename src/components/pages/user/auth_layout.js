@@ -23,7 +23,7 @@ export default function AuthLayout({ children, user }) {
           <div className="w-4/5 h-14 m-auto relative mb-5">
             <Avatar className="h-16 w-16 m-auto" />
           </div>
-          <h4 className="text-center mb-4 text-xl font-semibold">{`${user.firstname} ${user.lastname}`}</h4>
+          <h4 className="text-center mb-4 text-xl font-semibold">{`${user?.firstname} ${user?.lastname}`}</h4>
 
           <ul className="w-full">
             <li className="w-full p-1">
@@ -31,7 +31,7 @@ export default function AuthLayout({ children, user }) {
                 href="tel:+2330500404908"
                 className="flex items-center justify-center w-full"
               >
-                <Phone /> <span className="ml-1">{ user.phone.replace('+233', '0') }</span>
+                <Phone /> <span className="ml-1">{ user?.phone.replace('+233', '0') }</span>
               </a>
             </li>
             <li className="w-full p-1">
@@ -39,7 +39,7 @@ export default function AuthLayout({ children, user }) {
                 href="mailto:muvers@gmail.com"
                 className="flex items-center justify-center w-full"
               >
-                <AlternateEmail /> <span className="ml-1">{ user.email }</span>
+                <AlternateEmail /> <span className="ml-1">{ user?.email }</span>
               </a>
             </li>
           </ul>
@@ -72,7 +72,7 @@ export default function AuthLayout({ children, user }) {
           </li>
           <li className="w-full">
             <Link
-              url="/settings"
+              url="/settings/profile-settings"
               className="flex items-center w-full p-3 pl-5 hover:bg-slate-200"
             >
               <Settings /> <span className="ml-2">Settings</span>

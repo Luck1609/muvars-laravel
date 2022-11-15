@@ -48,11 +48,11 @@ export default function Profile({ user }) {
         <div className="flex col-span-2 pt-7">
           <label className="font-xl font-semibold block grow">Basic info settings</label>
 
-          <FormBtn 
+          {/* <FormBtn 
             content="Save"
             className="btn bg-primary"
             disabled={!isValid || !isDirty}
-          />
+          /> */}
         </div>
 
         <div className="w-full grid gap-5">
@@ -76,6 +76,15 @@ export default function Profile({ user }) {
             flexdirection="flex-col text-center"
           />
         </div>
+
+      
+        <div className="col-span-2 text-center mt-5">
+          <FormBtn 
+            content="Save" 
+            className="btn bg-sky-500 hover:bg-sky-600 w-72 h-12" 
+            disabled={!isValid || !isDirty}
+          />
+        </div> 
       </form>
     </FormProvider>
   )

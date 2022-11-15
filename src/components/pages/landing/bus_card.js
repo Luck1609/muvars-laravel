@@ -43,7 +43,7 @@ export default function BusCard() {
 
 const Card = ({ img, name, count }) => {
   return (
-    <div className="w-full h-52 relative rounded-md overflow-hidden before:absolute before:left-0 before:top-0 before:bg-black before:bg-opacity-40 before:w-full before:h-full before:z-10">
+    <div className="w-full h-52 relative rounded-md overflow-hidden before:absolute before:left-0 before:top-0 before:bg-black before:bg-opacity-40 before:w-full before:h-full before:z-[1]">
       <Image src={ img } alt="bus name" layout="fill" className="z-0" />
       
       <div className="absolute bottom-0 right-0 z-10 w-full h-20 pl-8 text-white">

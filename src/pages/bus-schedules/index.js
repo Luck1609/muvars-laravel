@@ -1,9 +1,9 @@
 import Layout from 'components/layouts/users_nav'
 import BusScheduleComponent from 'components/pages/bus_schedule'
 import HttpReq from 'helpers/axios'
-import { beautifyUrl } from 'helpers/index'
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
+// import { beautifyUrl } from 'helpers/index'
+// import { useRouter } from 'next/router'
+// import useSWR from 'swr'
 
 export default function BusSchedules({ pageProps: { buses = [] } }) {
   // const { query: {destination, origin, date} } = useRouter()

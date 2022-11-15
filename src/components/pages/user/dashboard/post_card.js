@@ -67,7 +67,7 @@ export default function PostCard({ data: {title, expiresAt, createdAt, img, slug
             </li>
             <li className="">
               <Btn 
-                content={<span className="flex items-center"><CloseOutlined fontSize="small" className="mr-1" /> Close Add</span>}
+                content={<span className="flex items-center"><CloseOutlined fontSize="small" className="mr-1" /> Close Ad</span>}
                 className="bg-rose-400 hover:bg-rose-500 text-white h-10 btn text-xs"
               />
             </li>

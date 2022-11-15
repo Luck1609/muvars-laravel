@@ -30,7 +30,7 @@ export default function Security() {
             Security settings
           </label>
 
-          <FormBtn content="Save" className="btn bg-primary" disabled={!isValid || !isDirty} />
+          {/* <FormBtn content="Save" className="btn bg-primary" disabled={!isValid || !isDirty} /> */}
         </div>
 
         <Input
@@ -50,6 +50,14 @@ export default function Security() {
           label="Repeat new password"
           className="w-full"
         />
+        
+        <div className="col-span-2 text-center mt-5">
+          <FormBtn 
+            content="Save" 
+            className="btn bg-sky-500 hover:bg-sky-600 w-72 h-12" 
+            disabled={!isValid || !isDirty}
+          />
+        </div>
       </form>
     </FormProvider>
   );

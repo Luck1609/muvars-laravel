@@ -35,7 +35,7 @@ export default function BusBookingForm() {
 
       <div className="w-full">
         <PhoneNumberInput 
-          name="emergency_contact_phone"
+          name="emergencyContactPhone"
           label="Emergency number"
           className="h-14 w-full rounded-[4px]"
         />

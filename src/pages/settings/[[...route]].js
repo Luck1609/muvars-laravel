@@ -1,9 +1,10 @@
 import React from "react";
-import Layout from "components/layouts/users_nav";
-// import SettingsComponent from "components/pages/user/settings";
-import { useState } from "react";
+import { useRouter } from "next/router";
+// import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
 import { Divider } from "@mui/material";
+import Layout from "components/layouts/users_nav";
+// import SettingsComponent from "components/pages/user/settings";
 import HttpReq from "helpers/axios";
 import CustomMenu from "components/widgets/menu_item";
 import Profile from "components/pages/user/settings/profile";
@@ -12,10 +13,11 @@ import Business from "components/pages/user/settings/bisuness";
 import { Btn } from "components/widgets/btn";
 import AuthLayout from "components/pages/user/auth_layout";
 
-export default function Settings({ pageProps: {user} }) {
-  const [toggler, setToggler] = useState("Basic info settings");
+export default function Settings({ pageProps }) {
+  // const [toggler, setToggler] = useState("Basic info settings");
+  const { push, query: { route } } = useRouter();
 
-  const toggle = (form) => setToggler(form)
+  const toggle = (form) => push(form)
 
   const options = [
     {
@@ -23,21 +25,21 @@ export default function Settings({ pageProps: {user} }) {
         <div
           className="p-1.5 px-3 cursor-pointer"
           onClick={() => {
-            toggle("Basic info settings");
+            toggle("profile-settings");
             close();
           }}
         >
           Basic info settings
         </div>
       ),
-      label: "Basic info settings",
+      label: "Profile settings",
     },
     {
       name: ({ close }) => (
         <div
           className="p-1.5 px-3 cursor-pointer"
           onClick={() => {
-            toggle("Security settings");
+            toggle("security-settings");
             close();
           }}
         >
@@ -51,7 +53,7 @@ export default function Settings({ pageProps: {user} }) {
         <div
           className="p-1.5 px-3 cursor-pointer"
           onClick={() => {
-            toggle("Bisuness info");
+            toggle("bisuness-info");
             close();
           }}
         >
@@ -61,6 +63,13 @@ export default function Settings({ pageProps: {user} }) {
       label: "Bisuness info",
     },
   ];   
+
+  // console.log('Auth user', query)
+  const user = pageProps.user
+
+  const url = route[0].split('-').join(' ')
+  
+  const toggler = `${url.charAt(0).toUpperCase()}${url.substring(1)}`
 
   return (
     <Layout>
@@ -104,7 +113,7 @@ export default function Settings({ pageProps: {user} }) {
 const form_switch = (name, user) => {
 
   switch (name) {
-    case 'Basic info settings':
+    case 'Profile settings':
       return <Profile user={user} />
   
     case 'Security settings':

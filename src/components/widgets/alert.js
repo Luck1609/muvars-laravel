@@ -8,7 +8,7 @@ const Alert = () => {
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}
-      closeOnClick
+      closeOnClick={true}
       rtl={false}
       pauseOnFocusLoss
       draggable

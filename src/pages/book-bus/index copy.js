@@ -1,10 +1,9 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useRouter } from 'next/router'
-import useSWR from 'swr';
-import { usePaystackPayment } from "react-paystack";
+// import BookBusComponent from 'components/pages/bus_schedule/book_bus'
 import HttpReq from 'helpers/axios';
-// import { beautifyUrl } from 'helpers/index';
+import { beautifyUrl } from 'helpers/index';
 import Layout from 'components/layouts/users_nav';
 import { BusCard } from 'components/pages/bus_schedule/schedule_card';
 import { Btn, FormBtn } from 'components/widgets/btn';
@@ -12,19 +11,12 @@ import BusBookingForm from 'components/pages/bus_schedule/form/bus_booking_form'
 import PreviewTickets from 'components/pages/bus_schedule/widgets/preview_tickets';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { booking_validation } from 'components/validations';
-import TicketQuantityComponent from 'components/pages/book-bus/ticket_quantity';
-import useAPIContext from 'hooks/api_context';
-import { useCallback } from 'react';
 
 export default function BusBooking({ pageProps: { info } }) {
-  const { data } = useSWR('/user-data')
-  const [qty, setQty] = useState(1);
-  const [purchase, setPurchase] = useState(1);
-  const [step, setStep] = useState(1);
+  const [tickets, setTickets] = useState(1);
   const [preview, setPreview] = useState(false);
-  const [entries, setEntries] = useState([]);
   const { query } = useRouter();
-  const { makeRequest } = useAPIContext()
+  const purchase = useRef(1);
 
 
   const methods = useForm({
@@ -32,27 +24,34 @@ export default function BusBooking({ pageProps: { info } }) {
     resolver: yupResolver(booking_validation)
   });
 
-  const { handleSubmit, reset, watch, setValue, formState: {isValid, isDirty} } = methods;
+  const { handleSubmit, reset, watch, formState: {isValid, isDirty, errors} } = methods;
 
+  const ticketEntry = useRef([
+    {
+      name: '',
+      phone: '',
+      gender: '',
+      emergency_contact_phone: '',
+      date: query.date,
+      origin: (query.origin.split('-').join(' ')).split('_').join('-'),
+      destination: (query.destination.split('-').join(' ')).split('_').join('-'),
+      scheduleId: info.id,
+      fare: info.fare
+    }
+  ]);
 
 
   const defaultFormData = useMemo(() => { return {
     name: '',
     phone: '',
     gender: '',
-    emergencyContactPhone: '',
-    travelDate: query.date,
+    emergency_contact_phone: '',
+    date: query.date,
     origin: (query.origin.split('-').join(' ')).split('_').join('-'),
     destination: (query.destination.split('-').join(' ')).split('_').join('-'),
     scheduleId: info.id,
     fare: info.fare
   }}, [info, query])
-
-  
-  useEffect(() => {
-    setEntries([defaultFormData])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     reset(defaultFormData)
@@ -61,79 +60,37 @@ export default function BusBooking({ pageProps: { info } }) {
 
 
   const submit = (payload) => {
-    const state = entries
-    state[step - 1] = payload;
+    if (!ticketEntry.current[0].name || !ticketEntry.current[0].phone || !ticketEntry.current[0].gender || !ticketEntry.current[0].emergency_contact_phone) {
+      ticketEntry.current[0] = {
+        ...ticketEntry.current[0],
+        ...payload
+      }
+    }
+    else {
+      ticketEntry.current = [...ticketEntry.current, payload]
+    }
 
-    setEntries(state)
+    // console.log('Ticket entries', ticketEntry.current)
+    // ticketEntry.current.length === tickets ? console.log('Yes, ready to book', ticketEntry.current.length, '=', tickets) : console.log('No, waiting to fill form', ticketEntry.current.length, '=', tickets)
 
-    if (entries.length !== step) setStep(step + 1)
-    if (entries.length === step) setPreview(!preview)
-    reset(defaultFormData)
+    if (ticketEntry.current.length === tickets) setPreview(!preview)
+    // reset(defaultFormData)
   };
-
-  const handlePurchase = (e) => {
-    if (e.target.value >= 1) setPurchase(e.target.value);
-  }
-
-  const handlePrevious = () => {
-    // set form fields to previous data entered
-    const previous_data = entries[step - 1];
-
-    setValue('name', previous_data.name)
-    setValue('phone', previous_data.phone)
-    setValue('gender', previous_data.gender)
-    setValue('emergencyContactPhone', previous_data.emergencyContactPhone)
-    setValue('destination', previous_data.destination)
-    setStep(step - 1);
-  }
-  
-  // useEffect(() => {
-  //   reset(entries[step]);
-  // })
-  
-  
 
 
   const number_of_tickets = (e) => {
     e.preventDefault();
-    setQty(purchase)
-
-    for (let formData = 0; formData < (purchase - 1); formData++) {
-      setEntries([...entries, defaultFormData])
-    }
+    setTickets(purchase.current.value)
+    // purchase.current.value = ''
   }
 
-  console.log('Watching ticket form', watch())
-  console.log('Entries database', entries[step - 1])
+  // console.log('Bus to be boarded', info)
+  // console.log('Ticket entries', ticketEntry.current)
+  // console.log('Watching ticket form entries', ticketEntry.current, 'Preview status =>', preview)
 
-  const totalFares = entries.reduce((acc, current) => {
-    return acc + current.fare
-  }, 0)
-  
-  const initializePayment = usePaystackPayment({
+  const book_bus = () => {
 
-    reference : (Math.random().toString(36).slice(-10)).toUpperCase(),
-    currency: 'GHS',
-    email: data?.user.email,
-    amount: totalFares * 100,
-    publicKey: 'pk_test_990efee3f71a1bbe44dced41031d573c8be68217'
-  })
-
-  const onSuccess = ({ reference, transaction }) => {
-    makeRequest({
-      method: 'post',
-      url: '/ticket',
-      payload: {
-        reference, transaction, entries
-      }
-    })
   }
-
-  const onClose = (ref) => {
-    console.log('Closed transaction reference', ref)
-  }
-
-  const book_bus = () => initializePayment(onSuccess, onClose)
 
   return (
     <Layout>
@@ -146,13 +103,20 @@ export default function BusBooking({ pageProps: { info } }) {
           <div className="lg:col-span-6 grid gap-7">
             <BusCard data={info} />
 
-            <TicketQuantityComponent 
-              preview={preview} 
-              tickets={number_of_tickets} 
-              handlePurchase={handlePurchase} 
-              purchase={purchase} 
-              qty={qty}
-            />
+            <form className="w-full flex items-center bg-white p-5 rounded shadow-sm" onSubmit={number_of_tickets}>
+              <label className="font-semibold text-xl grow">Purchase bus ticket</label>
+
+              <div className="w-2/5 flex items-center justify-end">
+                <input type="number" className="w-3/5 border p-3 rounded" disabled={preview} defaultValue={1} maxLength={5} placeholder="No. of tickets" ref={purchase} />
+                <Btn 
+                  content="Add details"
+                  className="bg-white text-primary hover:text-white hover:bg-primary h-12 ml-3 border-primary"
+                  variant="outlined"
+                  type="submit"
+                  disabled={preview}
+                />
+              </div>
+            </form>
             
             <FormProvider {...methods}>
               <form
@@ -162,23 +126,24 @@ export default function BusBooking({ pageProps: { info } }) {
       
                 <div className="bg-white shadow-sm p-5 rounded col-span-3 grid lg:grid-cols-3 gap-5">
                   <div className="w-full col-span-3 flex items-center">
-                    <label className="font-semibold text-lg block grow">Buyer details (Ticket { step }/{qty ?? 1})</label>
+                    <label className="font-semibold text-lg block grow">Buyer details (Ticket {ticketEntry.current.length}/{tickets ?? 1})</label>
 
-                    
+                    <Btn 
+                      content="Change destination"
+                      className="bg-emerald-400 hover:bg-emerald-500 mr-3"
+                    />
 
                     {
-                      qty > 1 && entries.length >= 1 ? (
-                        <Btn 
+                      tickets > 1 && ticketEntry.current.length >= 1 ? (
+                        <FormBtn 
                           content="Previous ticket"
                           className="bg-slate-500 hover:bg-slate-600 mr-3"
-                          disabled={step === 1}
-                          click={handlePrevious}
+                          disabled={!isValid || !isDirty}
                         />
                       ) : null
                     }
-
                     {
-                      entries.length !== step ? (
+                      ticketEntry.current.length !== tickets ? (
                         <FormBtn 
                           content="Next ticket"
                           className="bg-primary"
@@ -188,18 +153,11 @@ export default function BusBooking({ pageProps: { info } }) {
                         <>
                           {
                             !preview ? (
-                              <>
-                                {/* <Btn 
-                                  content="Change destination"
-                                  className="bg-emerald-400 hover:bg-emerald-500 mr-3"
-                                /> */}
-
-                                <FormBtn 
-                                  content="Preview ticket(s)"
-                                  className="bg-emerald-500"
-                                  disabled={!isValid || !isDirty}
-                                />
-                              </>
+                              <FormBtn 
+                                content="Preview ticket(s)"
+                                className="bg-emerald-500"
+                                disabled={!isValid || !isDirty}
+                              />
                             ) : (
                               <>
                                 <Btn 
@@ -225,11 +183,7 @@ export default function BusBooking({ pageProps: { info } }) {
                     !preview ? (
                       <BusBookingForm />
                     ) : (
-                      <>
-                        {
-                          entries.map((ticket, index) => <PreviewTickets key={index.toString()} ticket={ticket} />)
-                        }
-                      </>
+                      <PreviewTickets tickets={ticketEntry.current} />
                     )
                   }
                 </div>

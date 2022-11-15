@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from "react-hook-form";
-import Input from "components/widgets/input";
-import { FormBtn } from 'components/widgets/btn';
-import ImageSelection from 'components/widgets/image_selection';
-import { useEffect } from 'react';
+// import Input from "components/widgets/input";
+// import { FormBtn } from 'components/widgets/btn';
+// import ImageSelection from 'components/widgets/image_selection';
+// import { useEffect } from 'react';
+// import PhoneNumberInput from 'components/widgets/phone_number_input';
+// import CheckboxComponent from 'components/widgets/checkbox';
+import Basic from './business/basic';
+import WorkingDays from './business/working_days';
+import Location from './business/location';
+import dayjs from 'dayjs';
 
 export default function Bisuness({ business }) {
   const methods = useForm({mode: 'all'})
 
-  const { reset, handleSubmit } = methods;
+  const { reset } = methods;
 
   console.log('business info', business)
 
@@ -23,90 +29,21 @@ export default function Bisuness({ business }) {
       region: business?.region ?? "",
       town: business?.town ?? "",
       address: business?.address ?? "",
+      starting_time: business?.startingTime ? dayjs(business?.startingTime).format('HH:mm') : "",
+      closing_time: business?.closingTime ? dayjs(business?.closingTime).format('HH:mm') : "",
+      working_days: business?.workingDays ? JSON.parse(business.workingDays) : [],
+      altPhones: business?.altPhones ?? "",
     })
   }, [business, reset]);
   
 
   return (
     <FormProvider {...methods}>
-      <form className="w-full grid grid-cols-2 gap-5 px-10 pb-7 bg-white rounded">
-        <div className="flex col-span-2 pt-7">
-          <label className="font-xl font-semibold block grow">Business basic info</label>
+      <Basic />
 
-          <FormBtn 
-            content="Save"
-            className="btn bg-primary"
-          />
-        </div>
+      <Location />
 
-        <div className="col-span-2">
-          <ImageSelection 
-            name="logo"
-            label={<>Upload business logo <span className="text-red-400 font-medium">(max 3Mb)</span></>}
-          />
-        </div>
-
-        <Input 
-          name="name"
-          label="Business name"
-          className="w-full"
-        />
-
-        <Input 
-          name="phone"
-          label="Business primary phone number"
-          className="w-full"
-        />
-
-        <Input 
-          name="email"
-          label="Business email address"
-          className="w-full"
-        />
-
-        <Input 
-          name="website"
-          label="Link to website"
-          className="w-full"
-        />
-
-        <Input 
-          name="description"
-          label="About your business"
-          className="w-full col-span-2"
-          rows={4}
-          multiline
-        />
-      </form>
-
-      <form className="w-full grid grid-cols-2 gap-5 px-10 pb-7 bg-white rounded mt-10">
-        <div className="flex col-span-2 pt-7">
-          <label className="font-xl font-semibold block grow">Business location info</label>
-
-          <FormBtn 
-            content="Save"
-            className="btn bg-primary"
-          />
-        </div>
-
-        <Input 
-          name="region"
-          label="Business location (Region)"
-          className="w-full"
-        />
-
-        <Input 
-          name="town"
-          label="Business location (City/Town)"
-          className="w-full"
-        />
-
-        <Input 
-          name="address"
-          label="Business address"
-          className="w-full"
-        />
-      </form>
+      <WorkingDays />
     </FormProvider>
   )
 }
